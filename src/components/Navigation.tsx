@@ -15,20 +15,20 @@ const Navigation = () => {
 
   return (
     <nav 
-      className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 transition-all duration-500 ease-in-out"
+      className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 transition-all duration-700 ease-in-out"
       onMouseEnter={() => setIsExpanded(true)}
       onMouseLeave={() => setIsExpanded(false)}
     >
-      <div className={`glass-morphism rounded-full px-4 py-3 shadow-lg border transition-all duration-500 ease-in-out ${
+      <div className={`glass-morphism rounded-full px-4 py-3 shadow-lg border transition-all duration-700 ease-in-out ${
         isExpanded ? 'px-8' : 'px-4'
       }`}>
         <div className="flex items-center space-x-2">
-          {/* Logo */}
+          {/* Logo - only icon */}
           <div className="flex items-center">
             <img 
-              src="/lovable-uploads/ad3f62ab-0abf-456d-9489-4234b905219a.png" 
+              src="/lovable-uploads/eb0a41e8-ad30-4380-86a3-6f415394328a.png" 
               alt="Lá Fourmi Market" 
-              className="h-8 w-auto"
+              className="h-8 w-8 object-contain"
             />
           </div>
 
@@ -39,12 +39,12 @@ const Navigation = () => {
                 key={item.label}
                 variant="ghost"
                 size="sm"
-                className={`glow-effect rounded-full transition-all duration-300 hover:scale-110 hover:bg-primary/10 ${
+                className={`glow-effect rounded-full transition-all duration-500 hover:scale-110 hover:bg-primary/10 ${
                   isExpanded ? 'px-4' : 'px-2'
                 }`}
               >
                 <item.icon className="h-4 w-4" />
-                <span className={`ml-2 transition-all duration-300 overflow-hidden ${
+                <span className={`ml-2 transition-all duration-500 overflow-hidden whitespace-nowrap ${
                   isExpanded ? 'max-w-20 opacity-100' : 'max-w-0 opacity-0'
                 }`}>
                   {item.label}
@@ -58,10 +58,10 @@ const Navigation = () => {
             <Button
               variant="ghost"
               size="sm"
-              className="glow-effect rounded-full transition-all duration-300 hover:scale-110 hover:bg-primary/10"
+              className="glow-effect rounded-full transition-all duration-500 hover:scale-110 hover:bg-primary/10"
             >
               <Search className="h-4 w-4" />
-              <span className={`ml-2 transition-all duration-300 overflow-hidden ${
+              <span className={`ml-2 transition-all duration-500 overflow-hidden whitespace-nowrap ${
                 isExpanded ? 'max-w-20 opacity-100' : 'max-w-0 opacity-0'
               }`}>
                 Search
@@ -71,13 +71,13 @@ const Navigation = () => {
             <Button
               variant="ghost"
               size="sm"
-              className="glow-effect rounded-full transition-all duration-300 hover:scale-110 hover:bg-primary/10 relative"
+              className="glow-effect rounded-full transition-all duration-500 hover:scale-110 hover:bg-primary/10 relative"
             >
               <ShoppingCart className="h-4 w-4" />
-              <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-xs rounded-full h-5 w-5 flex items-center justify-center">
+              <span className="absolute -top-2 -right-2 bg-primary text-primary-foreground text-xs rounded-full h-6 w-6 flex items-center justify-center font-bold shadow-lg">
                 3
               </span>
-              <span className={`ml-2 transition-all duration-300 overflow-hidden ${
+              <span className={`ml-2 transition-all duration-500 overflow-hidden whitespace-nowrap ${
                 isExpanded ? 'max-w-20 opacity-100' : 'max-w-0 opacity-0'
               }`}>
                 Cart
@@ -87,10 +87,10 @@ const Navigation = () => {
             <Button
               variant="ghost"
               size="sm"
-              className="glow-effect rounded-full transition-all duration-300 hover:scale-110 hover:bg-primary/10"
+              className="glow-effect rounded-full transition-all duration-500 hover:scale-110 hover:bg-primary/10"
             >
               <User className="h-4 w-4" />
-              <span className={`ml-2 transition-all duration-300 overflow-hidden ${
+              <span className={`ml-2 transition-all duration-500 overflow-hidden whitespace-nowrap ${
                 isExpanded ? 'max-w-20 opacity-100' : 'max-w-0 opacity-0'
               }`}>
                 Login

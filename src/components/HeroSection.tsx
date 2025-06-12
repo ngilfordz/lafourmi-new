@@ -58,13 +58,13 @@ const HeroSection = () => {
           </div>
         </div>
 
-        {/* Right side - Store image */}
+        {/* Right side - Hero image with logo + text */}
         <div className="relative animate-float">
           <div className="relative">
             <img 
-              src="/lovable-uploads/4e11b3e7-44e1-45c2-8a72-1827bbce2ff8.png"
-              alt="Lá Fourmi Market Storefront"
-              className="w-full h-auto rounded-2xl shadow-2xl glow-effect"
+              src="/lovable-uploads/8a8b9c77-47fc-4d82-8261-b96800efc15a.png"
+              alt="Lá Fourmi Market Hero"
+              className="w-full h-auto max-h-[600px] object-contain rounded-2xl shadow-2xl glow-effect"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-background/20 to-transparent rounded-2xl"></div>
           </div>

@@ -2,11 +2,12 @@
 import React from 'react';
 import Navigation from '@/components/Navigation';
 import HeroSection from '@/components/HeroSection';
-import ProductCategories from '@/components/ProductCategories';
+import EnhancedProductCategories from '@/components/EnhancedProductCategories';
 import AboutSection from '@/components/AboutSection';
 import DeliveryTracker from '@/components/DeliveryTracker';
 import Footer from '@/components/Footer';
 import BackgroundPaths from '@/components/BackgroundPaths';
+import SpotifyPlayer from '@/components/SpotifyPlayer';
 
 const Index = () => {
   return (
@@ -17,10 +18,13 @@ const Index = () => {
       {/* Navigation */}
       <Navigation />
       
+      {/* Floating Spotify Player */}
+      <SpotifyPlayer />
+      
       {/* Main content */}
       <main className="relative z-10">
         <HeroSection />
-        <ProductCategories />
+        <EnhancedProductCategories />
         <AboutSection />
         <DeliveryTracker />
       </main>
