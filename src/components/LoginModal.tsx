@@ -172,7 +172,7 @@ const LoginModal = ({ isOpen, onClose, onLogin }: LoginModalProps) => {
         </Card>
       </div>
       
-      <style jsx>{`
+      <style>{`
         @keyframes meteor {
           0% {
             transform: translateY(-100vh) translateX(-100px);
