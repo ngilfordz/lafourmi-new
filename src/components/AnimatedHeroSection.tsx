@@ -24,7 +24,7 @@ const AnimatedHeroSection = () => {
   }, []);
 
   return (
-    <section id="home" className="min-h-screen flex items-center justify-center pt-24 px-8 relative">
+    <section id="home" className="min-h-screen flex items-center justify-center pt-24 px-8 relative bg-background">
       {/* Rubik's Cube Background */}
       <Scene />
       
