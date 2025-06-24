@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { ShoppingCart, User, Home, Package, Info, MapPin, Search, Sun, Moon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -55,49 +54,76 @@ const ModernNavigation = ({ cartItems, onCartClick, onLoginClick }: ModernNaviga
         isExpanded ? 'px-8 py-4' : 'px-4 py-3'
       }`}>
         <div className="flex items-center space-x-3">
-          {/* Logo - Always visible */}
-          <div className="flex items-center">
+          {/* Logo - Always visible with proper La Fourmi logo */}
+          <div className="flex items-center flex-shrink-0">
             <img 
               src="/lovable-uploads/eb0a41e8-ad30-4380-86a3-6f415394328a.png" 
               alt="La Fourmi Logo" 
-              className="h-6 w-6 object-contain"
+              className={`object-contain transition-all duration-500 ${
+                isExpanded ? 'h-8 w-8' : 'h-6 w-6'
+              }`}
             />
+            {/* Logo text that appears on expansion */}
+            <span className={`ml-2 font-bold text-grocery-yellow transition-all duration-500 overflow-hidden whitespace-nowrap ${
+              isExpanded ? 'max-w-32 opacity-100' : 'max-w-0 opacity-0'
+            }`}>
+              La Fourmi
+            </span>
           </div>
 
-          {/* Navigation Items - Smooth expand/collapse */}
-          <div className={`flex items-center space-x-2 transition-all duration-500 ease-out ${
-            isExpanded ? 'opacity-100 max-w-none' : 'opacity-0 max-w-0 overflow-hidden'
-          }`}>
+          {/* Navigation Items - Icons always visible, labels on hover */}
+          <div className="flex items-center space-x-1">
             {navItems.map((item) => (
               <Button
                 key={item.label}
                 variant="ghost"
                 size="sm"
                 onClick={() => smoothScrollTo(item.href)}
-                className="rounded-full transition-all duration-300 hover:scale-110 hover:bg-grocery-yellow/20 text-sm"
+                className="rounded-full transition-all duration-300 hover:scale-110 hover:bg-grocery-yellow/20 relative group"
               >
-                <item.icon className="h-4 w-4" />
-                <span className="ml-2">{item.label}</span>
+                <item.icon className="h-4 w-4 flex-shrink-0" />
+                <span className={`ml-2 transition-all duration-500 overflow-hidden whitespace-nowrap ${
+                  isExpanded ? 'max-w-20 opacity-100' : 'max-w-0 opacity-0'
+                }`}>
+                  {item.label}
+                </span>
+                
+                {/* Tooltip for collapsed state */}
+                {!isExpanded && (
+                  <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-black text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap">
+                    {item.label}
+                  </div>
+                )}
               </Button>
             ))}
           </div>
 
-          {/* Right side actions - Smooth expand/collapse */}
-          <div className={`flex items-center space-x-2 ml-4 pl-4 border-l border-grocery-yellow/30 transition-all duration-500 ease-out ${
-            isExpanded ? 'opacity-100 max-w-none' : 'opacity-0 max-w-0 overflow-hidden'
-          }`}>
+          {/* Right side actions - Icons always visible, labels on hover */}
+          <div className="flex items-center space-x-1 ml-4 pl-4 border-l border-grocery-yellow/30">
             {/* Search */}
             <div className="relative">
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={() => setShowSearch(!showSearch)}
-                className="rounded-full transition-all duration-300 hover:scale-110 hover:bg-grocery-yellow/20"
+                className="rounded-full transition-all duration-300 hover:scale-110 hover:bg-grocery-yellow/20 relative group"
               >
-                <Search className="h-4 w-4" />
+                <Search className="h-4 w-4 flex-shrink-0" />
+                <span className={`ml-2 transition-all duration-500 overflow-hidden whitespace-nowrap ${
+                  isExpanded ? 'max-w-20 opacity-100' : 'max-w-0 opacity-0'
+                }`}>
+                  Search
+                </span>
+                
+                {/* Tooltip for collapsed state */}
+                {!isExpanded && (
+                  <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-black text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap">
+                    Search
+                  </div>
+                )}
               </Button>
               
-              {showSearch && (
+              {showSearch && isExpanded && (
                 <div className="absolute top-12 right-0 w-80 bg-background/95 backdrop-blur-xl border border-grocery-yellow/30 rounded-xl p-4 shadow-2xl animate-fade-in-up">
                   <input
                     type="text"
@@ -132,13 +158,25 @@ const ModernNavigation = ({ cartItems, onCartClick, onLoginClick }: ModernNaviga
               variant="ghost"
               size="sm"
               onClick={onCartClick}
-              className="rounded-full transition-all duration-300 hover:scale-110 hover:bg-grocery-yellow/20 relative"
+              className="rounded-full transition-all duration-300 hover:scale-110 hover:bg-grocery-yellow/20 relative group"
             >
-              <ShoppingCart className="h-4 w-4" />
+              <ShoppingCart className="h-4 w-4 flex-shrink-0" />
               {cartItems > 0 && (
                 <span className="absolute -top-1 -right-1 bg-grocery-yellow text-black text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold">
                   {cartItems}
                 </span>
+              )}
+              <span className={`ml-2 transition-all duration-500 overflow-hidden whitespace-nowrap ${
+                isExpanded ? 'max-w-20 opacity-100' : 'max-w-0 opacity-0'
+              }`}>
+                Cart
+              </span>
+              
+              {/* Tooltip for collapsed state */}
+              {!isExpanded && (
+                <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-black text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap">
+                  Cart
+                </div>
               )}
             </Button>
 
@@ -147,9 +185,21 @@ const ModernNavigation = ({ cartItems, onCartClick, onLoginClick }: ModernNaviga
               variant="ghost"
               size="sm"
               onClick={onLoginClick}
-              className="rounded-full transition-all duration-300 hover:scale-110 hover:bg-grocery-yellow/20"
+              className="rounded-full transition-all duration-300 hover:scale-110 hover:bg-grocery-yellow/20 relative group"
             >
-              <User className="h-4 w-4" />
+              <User className="h-4 w-4 flex-shrink-0" />
+              <span className={`ml-2 transition-all duration-500 overflow-hidden whitespace-nowrap ${
+                isExpanded ? 'max-w-20 opacity-100' : 'max-w-0 opacity-0'
+              }`}>
+                Login
+              </span>
+              
+              {/* Tooltip for collapsed state */}
+              {!isExpanded && (
+                <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-black text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap">
+                  Login
+                </div>
+              )}
             </Button>
 
             {/* Theme Toggle */}
@@ -157,9 +207,21 @@ const ModernNavigation = ({ cartItems, onCartClick, onLoginClick }: ModernNaviga
               variant="ghost"
               size="sm"
               onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-              className="rounded-full transition-all duration-300 hover:scale-110 hover:bg-grocery-yellow/20"
+              className="rounded-full transition-all duration-300 hover:scale-110 hover:bg-grocery-yellow/20 relative group"
             >
-              {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+              {theme === 'dark' ? <Sun className="h-4 w-4 flex-shrink-0" /> : <Moon className="h-4 w-4 flex-shrink-0" />}
+              <span className={`ml-2 transition-all duration-500 overflow-hidden whitespace-nowrap ${
+                isExpanded ? 'max-w-20 opacity-100' : 'max-w-0 opacity-0'
+              }`}>
+                Theme
+              </span>
+              
+              {/* Tooltip for collapsed state */}
+              {!isExpanded && (
+                <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-black text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap">
+                  {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
+                </div>
+              )}
             </Button>
           </div>
         </div>
