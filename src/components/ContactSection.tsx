@@ -2,174 +2,227 @@
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { StarBorder } from '@/components/ui/star-border';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Mail, MessageCircle, Send, Phone, MapPin } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, MessageCircle, ExternalLink } from 'lucide-react';
 
 const ContactSection = () => {
-  const [email, setEmail] = useState('');
-  const [name, setName] = useState('');
-  const [message, setMessage] = useState('');
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: ''
+  });
 
-  const handleNewsletterSignup = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    alert(`Thank you ${name}! You've been subscribed to our newsletter.`);
-    setEmail('');
-    setName('');
-  };
-
-  const handleContactSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+    console.log('Form submitted:', formData);
+    // Here you would typically send the form data to your backend
     alert('Thank you for your message! We\'ll get back to you soon.');
-    setMessage('');
+    setFormData({ name: '', email: '', subject: '', message: '' });
   };
 
-  const openWhatsApp = () => {
-    window.open('https://web.whatsapp.com/send?autoload=1&app_absent=0&phone=96181692437&text=Hello%2C+I+want+to+make+a+delivery', '_blank');
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData(prev => ({
+      ...prev,
+      [e.target.name]: e.target.value
+    }));
   };
 
   return (
-    <section id="contact" className="py-32 px-8 bg-gradient-to-br from-background to-grocery-warm">
+    <section id="contact" className="py-32 px-8 bg-background">
       <div className="container mx-auto">
         <div className="text-center mb-20 animate-fade-in-up">
           <h2 className="text-6xl font-bold mb-8 font-mono">
             Get In{' '}
             <span className="text-gradient animate-glow">Touch</span>
           </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto font-light">
-            Join our community and stay updated with the latest from La Fourmi's premium Lebanese collection
+          <p className="text-xl text-muted-foreground max-w-4xl mx-auto font-light leading-relaxed">
+            Have questions about our products or need assistance? We're here to help! 
+            Reach out to us through any of the channels below.
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-16">
-          {/* Newsletter Signup */}
-          <Card className="glow-effect animate-fade-in-up border-grocery-yellow/20">
-            <CardHeader>
-              <CardTitle className="flex items-center text-2xl font-mono">
-                <Mail className="mr-3 h-6 w-6" />
-                Join Our Newsletter
-              </CardTitle>
-              <p className="text-muted-foreground font-light">
-                Get exclusive updates on new products, special offers, and Elie's latest finds
-              </p>
-            </CardHeader>
-            <CardContent>
-              <form onSubmit={handleNewsletterSignup} className="space-y-6">
-                <StarBorder>
-                  <Input
-                    type="text"
-                    placeholder="Your Name"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    className="h-14 border-grocery-yellow/30 font-light"
-                    required
-                  />
-                </StarBorder>
-                <StarBorder>
-                  <Input
-                    type="email"
-                    placeholder="your@email.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="h-14 border-grocery-yellow/30 font-light"
-                    required
-                  />
-                </StarBorder>
-                <StarBorder>
-                  <Button 
-                    type="submit" 
-                    className="w-full hover:scale-105 transition-transform h-14 bg-grocery-yellow text-black hover:bg-grocery-yellow-light font-semibold"
-                  >
-                    <Send className="mr-2 h-4 w-4" />
-                    Subscribe Now
-                  </Button>
-                </StarBorder>
-              </form>
-            </CardContent>
-          </Card>
+        <div className="grid lg:grid-cols-2 gap-12">
+          {/* Contact Information */}
+          <div className="space-y-8">
+            <Card className="glow-effect border-grocery-yellow/20">
+              <CardHeader>
+                <CardTitle className="text-2xl font-bold text-center">
+                  Contact Information
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="flex items-center space-x-4 p-4 rounded-lg hover:bg-grocery-yellow/10 transition-colors duration-300 group">
+                  <div className="w-12 h-12 bg-grocery-yellow/20 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                    <Phone className="h-6 w-6 text-grocery-yellow" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold">Phone / WhatsApp</h3>
+                    <a 
+                      href="tel:+96181692437" 
+                      className="text-muted-foreground hover:text-grocery-yellow transition-colors"
+                    >
+                      +961 81 692 437
+                    </a>
+                  </div>
+                </div>
 
-          {/* Contact Form */}
-          <Card className="glow-effect animate-fade-in-up border-grocery-yellow/20" style={{ animationDelay: '0.2s' }}>
-            <CardHeader>
-              <CardTitle className="flex items-center text-2xl font-mono">
-                <MessageCircle className="mr-3 h-6 w-6" />
-                Send us a Message
-              </CardTitle>
-              <p className="text-muted-foreground font-light">
-                Have questions about our products or need help with your order?
-              </p>
-            </CardHeader>
-            <CardContent>
-              <form onSubmit={handleContactSubmit} className="space-y-6">
-                <StarBorder>
-                  <Textarea
-                    placeholder="Tell us how we can help you..."
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    className="min-h-[120px] border-grocery-yellow/30 font-light"
-                    required
-                  />
-                </StarBorder>
-                <StarBorder>
-                  <Button 
-                    type="submit" 
-                    className="w-full hover:scale-105 transition-transform h-14 bg-grocery-yellow text-black hover:bg-grocery-yellow-light font-semibold"
-                  >
-                    <Send className="mr-2 h-4 w-4" />
-                    Send Message
-                  </Button>
-                </StarBorder>
-              </form>
+                <div className="flex items-center space-x-4 p-4 rounded-lg hover:bg-grocery-yellow/10 transition-colors duration-300 group">
+                  <div className="w-12 h-12 bg-grocery-yellow/20 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                    <Mail className="h-6 w-6 text-grocery-yellow" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold">Email</h3>
+                    <a 
+                      href="mailto:lafourmimarket@gmail.com" 
+                      className="text-muted-foreground hover:text-grocery-yellow transition-colors"
+                    >
+                      lafourmimarket@gmail.com
+                    </a>
+                  </div>
+                </div>
 
-              {/* WhatsApp Contact */}
-              <div className="mt-8 pt-8 border-t border-grocery-yellow/20">
-                <StarBorder>
-                  <Button 
-                    onClick={openWhatsApp}
-                    variant="outline"
-                    className="w-full hover:scale-105 transition-transform h-14 border-grocery-yellow text-grocery-yellow hover:bg-grocery-yellow hover:text-black font-semibold"
-                  >
-                    <MessageCircle className="mr-2 h-5 w-5 text-green-600" />
-                    Chat on WhatsApp
-                  </Button>
-                </StarBorder>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+                <div className="flex items-center space-x-4 p-4 rounded-lg hover:bg-grocery-yellow/10 transition-colors duration-300 group">
+                  <div className="w-12 h-12 bg-grocery-yellow/20 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                    <MapPin className="h-6 w-6 text-grocery-yellow" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold">Location</h3>
+                    <p className="text-muted-foreground">Beirut, Lebanon</p>
+                  </div>
+                </div>
 
-        {/* Contact Information */}
-        <div className="mt-20 grid md:grid-cols-3 gap-8 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
-          {[
-            {
-              icon: Phone,
-              title: 'Call Us',
-              content: '+961 81 692 437',
-              description: 'Mon-Fri 9AM-8PM'
-            },
-            {
-              icon: Mail,
-              title: 'Email Us',
-              content: 'Lafourmimarket@gmail.com',
-              description: 'We reply within 24h'
-            },
-            {
-              icon: MapPin,
-              title: 'Visit Our Store',
-              content: 'Beirut, Lebanon',
-              description: 'Premium Lebanese Products'
-            }
-          ].map((item, index) => (
-            <Card key={item.title} className="text-center glow-effect hover:scale-105 transition-all duration-300 border-grocery-yellow/20">
-              <CardContent className="p-8">
-                <item.icon className="h-16 w-16 text-grocery-yellow mx-auto mb-6" />
-                <h3 className="font-bold text-xl mb-3 font-mono">{item.title}</h3>
-                <p className="text-grocery-yellow font-medium mb-2">{item.content}</p>
-                <p className="text-sm text-muted-foreground font-light">{item.description}</p>
+                <div className="flex items-center space-x-4 p-4 rounded-lg hover:bg-grocery-yellow/10 transition-colors duration-300 group">
+                  <div className="w-12 h-12 bg-grocery-yellow/20 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                    <ExternalLink className="h-6 w-6 text-grocery-yellow" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold">Product Catalog</h3>
+                    <a 
+                      href="https://nextar.shop/Lafourmi" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-muted-foreground hover:text-grocery-yellow transition-colors"
+                    >
+                      Browse Full Catalog
+                    </a>
+                  </div>
+                </div>
               </CardContent>
             </Card>
-          ))}
+
+            {/* Social Media Links */}
+            <Card className="glow-effect border-grocery-yellow/20">
+              <CardContent className="p-6">
+                <h3 className="text-xl font-bold mb-4 text-center">Follow Us</h3>
+                <div className="flex justify-center space-x-4">
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    onClick={() => window.open('https://www.instagram.com/lafourmi_market/', '_blank')}
+                    className="rounded-full glow-effect hover:scale-110 transition-transform duration-300"
+                  >
+                    <MessageCircle className="h-5 w-5 mr-2" />
+                    Instagram
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    onClick={() => window.open('https://www.threads.com/@lafourmi_market', '_blank')}
+                    className="rounded-full glow-effect hover:scale-110 transition-transform duration-300"
+                  >
+                    <MessageCircle className="h-5 w-5 mr-2" />
+                    Threads
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Contact Form */}
+          <Card className="glow-effect border-grocery-yellow/20">
+            <CardHeader>
+              <CardTitle className="text-2xl font-bold text-center">
+                Send Us a Message
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <label htmlFor="name" className="block text-sm font-medium mb-2">
+                      Your Name
+                    </label>
+                    <input
+                      type="text"
+                      id="name"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      required
+                      className="w-full p-3 rounded-lg bg-muted/50 border border-grocery-yellow/30 focus:outline-none focus:border-grocery-yellow transition-colors"
+                      placeholder="Enter your name"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="email" className="block text-sm font-medium mb-2">
+                      Email Address
+                    </label>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      required
+                      className="w-full p-3 rounded-lg bg-muted/50 border border-grocery-yellow/30 focus:outline-none focus:border-grocery-yellow transition-colors"
+                      placeholder="Enter your email"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label htmlFor="subject" className="block text-sm font-medium mb-2">
+                    Subject
+                  </label>
+                  <input
+                    type="text"
+                    id="subject"
+                    name="subject"
+                    value={formData.subject}
+                    onChange={handleChange}
+                    required
+                    className="w-full p-3 rounded-lg bg-muted/50 border border-grocery-yellow/30 focus:outline-none focus:border-grocery-yellow transition-colors"
+                    placeholder="What's this about?"
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="message" className="block text-sm font-medium mb-2">
+                    Message
+                  </label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    rows={5}
+                    value={formData.message}
+                    onChange={handleChange}
+                    required
+                    className="w-full p-3 rounded-lg bg-muted/50 border border-grocery-yellow/30 focus:outline-none focus:border-grocery-yellow transition-colors resize-none"
+                    placeholder="Tell us how we can help you..."
+                  />
+                </div>
+
+                <Button
+                  type="submit"
+                  size="lg"
+                  className="w-full bg-grocery-yellow text-black hover:bg-grocery-yellow-light font-semibold rounded-lg glow-effect"
+                >
+                  <Send className="h-5 w-5 mr-2" />
+                  Send Message
+                </Button>
+              </form>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </section>

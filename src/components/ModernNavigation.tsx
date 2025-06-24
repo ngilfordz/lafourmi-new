@@ -34,7 +34,8 @@ const ModernNavigation = ({ cartItems, onCartClick, onLoginClick }: ModernNaviga
   };
 
   const mockProducts = [
-    'Sprite 330ml', 'Coca-Cola 330ml', 'Marlboro Red', 'Lebanese Wine', 'Arak Kefraya'
+    'Coca-Cola 330ml', 'Sprite 330ml', 'Marlboro Red', 'Lebanese Wine', 'Arak Kefraya',
+    'Almaza Beer', 'Za\'atar Mix', 'Lebanese Olive Oil', 'Tide Detergent', 'Head & Shoulders'
   ];
 
   const filteredProducts = mockProducts.filter(product =>
@@ -43,11 +44,14 @@ const ModernNavigation = ({ cartItems, onCartClick, onLoginClick }: ModernNaviga
 
   return (
     <nav 
-      className="fixed top-6 left-1/2 transform -translate-x-1/2 z-50 transition-all duration-700 ease-out"
+      className="fixed top-6 left-1/2 transform -translate-x-1/2 z-50 transition-all duration-500 ease-out"
       onMouseEnter={() => setIsExpanded(true)}
-      onMouseLeave={() => setIsExpanded(false)}
+      onMouseLeave={() => {
+        setIsExpanded(false);
+        setShowSearch(false);
+      }}
     >
-      <div className={`glass-morphism rounded-full shadow-2xl border-grocery-yellow/20 backdrop-blur-xl bg-background/80 transition-all duration-700 ease-out ${
+      <div className={`glass-morphism rounded-full shadow-2xl border-grocery-yellow/20 backdrop-blur-xl bg-background/90 transition-all duration-500 ease-out ${
         isExpanded ? 'px-8 py-4' : 'px-4 py-3'
       }`}>
         <div className="flex items-center space-x-3">
@@ -60,8 +64,8 @@ const ModernNavigation = ({ cartItems, onCartClick, onLoginClick }: ModernNaviga
             />
           </div>
 
-          {/* Navigation Items - Only show when expanded */}
-          <div className={`flex items-center space-x-2 transition-all duration-700 ease-out ${
+          {/* Navigation Items - Smooth expand/collapse */}
+          <div className={`flex items-center space-x-2 transition-all duration-500 ease-out ${
             isExpanded ? 'opacity-100 max-w-none' : 'opacity-0 max-w-0 overflow-hidden'
           }`}>
             {navItems.map((item) => (
@@ -78,8 +82,8 @@ const ModernNavigation = ({ cartItems, onCartClick, onLoginClick }: ModernNaviga
             ))}
           </div>
 
-          {/* Right side actions - Only show when expanded */}
-          <div className={`flex items-center space-x-2 ml-4 pl-4 border-l border-grocery-yellow/30 transition-all duration-700 ease-out ${
+          {/* Right side actions - Smooth expand/collapse */}
+          <div className={`flex items-center space-x-2 ml-4 pl-4 border-l border-grocery-yellow/30 transition-all duration-500 ease-out ${
             isExpanded ? 'opacity-100 max-w-none' : 'opacity-0 max-w-0 overflow-hidden'
           }`}>
             {/* Search */}
@@ -94,22 +98,27 @@ const ModernNavigation = ({ cartItems, onCartClick, onLoginClick }: ModernNaviga
               </Button>
               
               {showSearch && (
-                <div className="absolute top-12 right-0 w-80 bg-background/95 backdrop-blur-xl border border-grocery-yellow/30 rounded-xl p-4 shadow-2xl">
+                <div className="absolute top-12 right-0 w-80 bg-background/95 backdrop-blur-xl border border-grocery-yellow/30 rounded-xl p-4 shadow-2xl animate-fade-in-up">
                   <input
                     type="text"
                     placeholder="Search products..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     className="w-full p-2 rounded-lg bg-muted/50 border border-grocery-yellow/30 focus:outline-none focus:border-grocery-yellow"
+                    autoFocus
                   />
                   {searchQuery && (
-                    <div className="mt-2 space-y-1">
-                      {filteredProducts.map((product, index) => (
-                        <div key={index} className="p-2 hover:bg-grocery-yellow/20 rounded cursor-pointer text-sm">
-                          {product}
-                        </div>
-                      ))}
-                      {filteredProducts.length === 0 && (
+                    <div className="mt-2 space-y-1 max-h-48 overflow-y-auto">
+                      {filteredProducts.length > 0 ? (
+                        filteredProducts.map((product, index) => (
+                          <div 
+                            key={index} 
+                            className="p-2 hover:bg-grocery-yellow/20 rounded cursor-pointer text-sm transition-colors duration-200"
+                          >
+                            {product}
+                          </div>
+                        ))
+                      ) : (
                         <div className="p-2 text-sm text-muted-foreground">No products found</div>
                       )}
                     </div>

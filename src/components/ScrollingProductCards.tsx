@@ -31,8 +31,8 @@ const ScrollingProductCards = () => {
 
   useEffect(() => {
     const unsubscribe = scrollYProgress.on('change', (latest) => {
-      // Calculate which card should be active based on scroll progress
-      const progress = latest * 8; // Amplify for better control
+      // More sensitive scroll detection for proper card transitions
+      const progress = latest * 12; // Increased multiplier for better control
       const newActiveCard = Math.min(Math.floor(progress), cards.length - 1);
       setActiveCard(Math.max(0, newActiveCard));
     });
@@ -44,47 +44,52 @@ const ScrollingProductCards = () => {
     <section className="py-32 px-8 bg-background min-h-screen flex items-center">
       <div className="container mx-auto max-w-4xl">
         <div className="text-center mb-20">
-          <h2 className="text-5xl font-bold mb-6 font-mono">
+          <h2 className="text-6xl font-bold mb-8 font-mono">
             Why Choose{' '}
             <span className="text-gradient animate-glow">La Fourmi</span>
           </h2>
         </div>
 
         <div className="relative h-96 flex items-center justify-center">
-          {cards.map((card, index) => (
-            <motion.div
-              key={card.id}
-              className={`absolute inset-0 rounded-2xl border border-grocery-yellow/30 shadow-2xl backdrop-blur-sm transition-all duration-1000 ease-out ${
-                index === activeCard ? 'z-30' : index < activeCard ? 'z-10' : 'z-20'
-              }`}
-              initial={{ 
-                rotateX: 90, 
-                opacity: 0,
-                scale: 0.8,
-                y: 100
-              }}
-              animate={{ 
-                rotateX: index === activeCard ? 0 : index < activeCard ? -20 : 90,
-                opacity: index === activeCard ? 1 : index < activeCard ? 0.3 : 0.1,
-                scale: index === activeCard ? 1 : index < activeCard ? 0.95 : 0.8,
-                y: index === activeCard ? 0 : index < activeCard ? -50 : 100
-              }}
-              transition={{ 
-                duration: 1.2,
-                ease: "easeInOut"
-              }}
-              style={{ 
-                transformStyle: "preserve-3d",
-                perspective: "1000px"
-              }}
-            >
-              <div className={`h-full bg-gradient-to-br ${card.gradient} rounded-2xl p-8 flex items-center justify-center`}>
-                <p className="text-xl leading-relaxed text-center font-light text-foreground">
-                  {card.text}
-                </p>
-              </div>
-            </motion.div>
-          ))}
+          {cards.map((card, index) => {
+            const isActive = index === activeCard;
+            const isPrevious = index < activeCard;
+            
+            return (
+              <motion.div
+                key={card.id}
+                className={`absolute inset-0 rounded-2xl border border-grocery-yellow/30 shadow-2xl backdrop-blur-sm ${
+                  isActive ? 'z-30' : isPrevious ? 'z-10' : 'z-20'
+                }`}
+                initial={{ 
+                  rotateX: 90, 
+                  opacity: 0,
+                  scale: 0.8,
+                  y: 100
+                }}
+                animate={{ 
+                  rotateX: isActive ? 0 : isPrevious ? -90 : 90,
+                  opacity: isActive ? 1 : isPrevious ? 0 : 0.3,
+                  scale: isActive ? 1 : isPrevious ? 0.9 : 0.8,
+                  y: isActive ? 0 : isPrevious ? -100 : 100
+                }}
+                transition={{ 
+                  duration: 0.8,
+                  ease: "easeInOut"
+                }}
+                style={{ 
+                  transformStyle: "preserve-3d",
+                  perspective: "1000px"
+                }}
+              >
+                <div className={`h-full bg-gradient-to-br ${card.gradient} rounded-2xl p-8 flex items-center justify-center`}>
+                  <p className="text-xl leading-relaxed text-center font-light text-foreground">
+                    {card.text}
+                  </p>
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
 
         {/* Progress indicator */}

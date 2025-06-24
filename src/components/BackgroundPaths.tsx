@@ -4,7 +4,7 @@ import { BackgroundPaths as NewBackgroundPaths } from '@/components/ui/backgroun
 
 const BackgroundPaths = () => {
   return (
-    <div className="fixed inset-0 pointer-events-none z-0 opacity-20">
+    <div className="fixed inset-0 pointer-events-none z-0 opacity-30">
       <NewBackgroundPaths />
     </div>
   );
