@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -211,6 +210,13 @@ const PremiumSpotifyPlayer = () => {
     );
   }
 
+  // Update volume when it changes
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = volume / 100;
+    }
+  }, [volume]);
+
   return (
     <div className="fixed bottom-8 right-8 z-50">
       {/* 3D Spotify Button */}
@@ -405,7 +411,6 @@ const PremiumSpotifyPlayer = () => {
       <audio
         ref={audioRef}
         loop
-        volume={volume / 100}
         onPlay={() => setIsPlaying(true)}
         onPause={() => setIsPlaying(false)}
       >
