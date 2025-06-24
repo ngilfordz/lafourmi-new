@@ -8,11 +8,11 @@ import React, { Suspense, useRef, useState, useEffect, forwardRef, useMemo, useC
 import { Vector3, Matrix4, Quaternion } from "three";
 import { RoundedBox } from "@react-three/drei";
 
-const RubiksCubeModel = forwardRef((props, ref) => {
+const RubiksCubeModel = forwardRef<any, any>((props, ref) => {
   const ANIMATION_DURATION = 1.2;
   const GAP = 0.01;
   const RADIUS = 0.075;
-  const mainGroupRef = useRef();
+  const mainGroupRef = useRef<THREE.Group>(null);
   const isAnimatingRef = useRef(false);
   const currentRotationRef = useRef(0);
   const lastMoveAxisRef = useRef(null);
@@ -21,9 +21,9 @@ const RubiksCubeModel = forwardRef((props, ref) => {
   const isMountedRef = useRef(true);
   const viewportSizeRef = useRef({ width: window.innerWidth, height: window.innerHeight });
   const isResizingRef = useRef(false);
-  const resizeTimeoutRef = useRef(null);
+  const resizeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const [size, setSize] = useState(0.8);
-  const [cubes, setCubes] = useState([]);
+  const [cubes, setCubes] = useState<any[]>([]);
   const [isVisible, setIsVisible] = useState(true);
   const [deviceSettings, setDeviceSettings] = useState(() => {
     const isMobile = window.innerWidth < 768;
@@ -44,7 +44,7 @@ const RubiksCubeModel = forwardRef((props, ref) => {
   }));
 
   const initializeCubes = useCallback(() => {
-    const initial = [];
+    const initial: any[] = [];
     const positions = [-1, 0, 1];
     for (let x of positions) {
       for (let y of positions) {
@@ -124,6 +124,8 @@ const RubiksCubeModel = forwardRef((props, ref) => {
     </group>
   );
 });
+
+RubiksCubeModel.displayName = "RubiksCubeModel";
 
 export function Scene() {
   return (
