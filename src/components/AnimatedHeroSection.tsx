@@ -1,7 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { StarBorder } from '@/components/ui/star-border';
 import { Scene } from '@/components/ui/rubik-s-cube';
 import { ShoppingBag, Star } from 'lucide-react';
 
@@ -26,7 +25,9 @@ const AnimatedHeroSection = () => {
   return (
     <section id="home" className="min-h-screen flex items-center justify-center pt-24 px-8 relative bg-background">
       {/* Rubik's Cube Background */}
-      <Scene />
+      <div className="absolute inset-0 opacity-10 z-0">
+        <Scene />
+      </div>
       
       <div className="container mx-auto grid lg:grid-cols-2 gap-16 items-center relative z-10">
         {/* Left side - Hero text */}
@@ -46,26 +47,22 @@ const AnimatedHeroSection = () => {
           </div>
 
           <div className="flex flex-col sm:flex-row gap-6 animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
-            <StarBorder>
-              <Button 
-                size="lg" 
-                className="rounded-full px-12 py-6 text-lg font-semibold hover:scale-105 transition-all duration-300 bg-grocery-yellow text-black hover:bg-grocery-yellow-light"
-              >
-                <ShoppingBag className="mr-3 h-6 w-6" />
-                Start Shopping
-              </Button>
-            </StarBorder>
+            <Button 
+              size="lg" 
+              className="rounded-full px-12 py-6 text-lg font-semibold hover:scale-105 transition-all duration-300 bg-grocery-yellow text-black hover:bg-grocery-yellow-light glow-effect relative overflow-hidden"
+            >
+              <ShoppingBag className="mr-3 h-6 w-6" />
+              Start Shopping
+            </Button>
             
-            <StarBorder>
-              <Button 
-                variant="outline" 
-                size="lg" 
-                className="rounded-full px-12 py-6 text-lg font-semibold hover:scale-105 transition-all duration-300 border-grocery-yellow text-grocery-yellow hover:bg-grocery-yellow hover:text-black"
-              >
-                <Star className="mr-3 h-6 w-6" />
-                Explore Categories
-              </Button>
-            </StarBorder>
+            <Button 
+              variant="outline" 
+              size="lg" 
+              className="rounded-full px-12 py-6 text-lg font-semibold hover:scale-105 transition-all duration-300 border-grocery-yellow text-grocery-yellow hover:bg-grocery-yellow hover:text-black glow-effect"
+            >
+              <Star className="mr-3 h-6 w-6" />
+              Explore Categories
+            </Button>
           </div>
 
           <div className="flex items-center space-x-12 animate-fade-in-up" style={{ animationDelay: '0.9s' }}>

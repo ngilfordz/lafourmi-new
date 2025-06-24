@@ -1,10 +1,8 @@
-
 import React, { useState, useEffect } from 'react';
 import { useTheme } from 'next-themes';
 import LoadingSpiral from '@/components/LoadingSpiral';
 import ModernNavigation from '@/components/ModernNavigation';
 import AnimatedHeroSection from '@/components/AnimatedHeroSection';
-import FlippingCards from '@/components/FlippingCards';
 import PremiumProductGrid from '@/components/PremiumProductGrid';
 import AboutGallery from '@/components/AboutGallery';
 import TestimonialsSection from '@/components/TestimonialsSection';
@@ -15,6 +13,7 @@ import BackgroundPaths from '@/components/BackgroundPaths';
 import PremiumSpotifyPlayer from '@/components/PremiumSpotifyPlayer';
 import CartSidebar from '@/components/CartSidebar';
 import LoginModal from '@/components/LoginModal';
+import ScrollingProductCards from '@/components/ScrollingProductCards';
 
 interface CartItem {
   id: string;
@@ -96,9 +95,7 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background relative overflow-x-hidden">
       {/* Background animation - always visible */}
-      <div className="fixed inset-0 pointer-events-none z-0 opacity-20">
-        <BackgroundPaths />
-      </div>
+      <BackgroundPaths />
       
       {/* Navigation */}
       <ModernNavigation 
@@ -129,7 +126,7 @@ const Index = () => {
       {/* Main content */}
       <main className="relative z-10">
         <AnimatedHeroSection />
-        <FlippingCards />
+        <ScrollingProductCards />
         <PremiumProductGrid 
           onAddToCart={addToCart}
           cart={cartItems.reduce((acc, item) => ({ ...acc, [item.id]: item.quantity }), {})}

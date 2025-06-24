@@ -43,43 +43,45 @@ const ModernNavigation = ({ cartItems, onCartClick, onLoginClick }: ModernNaviga
 
   return (
     <nav 
-      className="fixed top-6 left-1/2 transform -translate-x-1/2 z-50 transition-all duration-500"
+      className="fixed top-6 left-1/2 transform -translate-x-1/2 z-50 transition-all duration-700 ease-out"
       onMouseEnter={() => setIsExpanded(true)}
       onMouseLeave={() => setIsExpanded(false)}
     >
-      <div className="glass-morphism rounded-full px-6 py-3 shadow-2xl border-grocery-yellow/20 backdrop-blur-xl bg-background/80">
-        <div className="flex items-center space-x-4">
-          {/* Logo */}
+      <div className={`glass-morphism rounded-full shadow-2xl border-grocery-yellow/20 backdrop-blur-xl bg-background/80 transition-all duration-700 ease-out ${
+        isExpanded ? 'px-8 py-4' : 'px-4 py-3'
+      }`}>
+        <div className="flex items-center space-x-3">
+          {/* Logo - Always visible */}
           <div className="flex items-center">
             <img 
-              src="/lovable-uploads/fda3ef9c-8f24-4f15-8091-84e6f12d64ce.png" 
+              src="/lovable-uploads/eb0a41e8-ad30-4380-86a3-6f415394328a.png" 
               alt="La Fourmi Logo" 
-              className="h-8 w-auto object-contain"
+              className="h-6 w-6 object-contain"
             />
           </div>
 
-          {/* Navigation Items */}
-          <div className="flex items-center space-x-2">
+          {/* Navigation Items - Only show when expanded */}
+          <div className={`flex items-center space-x-2 transition-all duration-700 ease-out ${
+            isExpanded ? 'opacity-100 max-w-none' : 'opacity-0 max-w-0 overflow-hidden'
+          }`}>
             {navItems.map((item) => (
               <Button
                 key={item.label}
                 variant="ghost"
                 size="sm"
                 onClick={() => smoothScrollTo(item.href)}
-                className="rounded-full transition-all duration-300 hover:scale-110 hover:bg-grocery-yellow/20"
+                className="rounded-full transition-all duration-300 hover:scale-110 hover:bg-grocery-yellow/20 text-sm"
               >
                 <item.icon className="h-4 w-4" />
-                {isExpanded && (
-                  <span className="ml-2 transition-all duration-300">
-                    {item.label}
-                  </span>
-                )}
+                <span className="ml-2">{item.label}</span>
               </Button>
             ))}
           </div>
 
-          {/* Right side actions */}
-          <div className="flex items-center space-x-2 ml-4 pl-4 border-l border-grocery-yellow/30">
+          {/* Right side actions - Only show when expanded */}
+          <div className={`flex items-center space-x-2 ml-4 pl-4 border-l border-grocery-yellow/30 transition-all duration-700 ease-out ${
+            isExpanded ? 'opacity-100 max-w-none' : 'opacity-0 max-w-0 overflow-hidden'
+          }`}>
             {/* Search */}
             <div className="relative">
               <Button
@@ -89,7 +91,6 @@ const ModernNavigation = ({ cartItems, onCartClick, onLoginClick }: ModernNaviga
                 className="rounded-full transition-all duration-300 hover:scale-110 hover:bg-grocery-yellow/20"
               >
                 <Search className="h-4 w-4" />
-                {isExpanded && <span className="ml-2">Search</span>}
               </Button>
               
               {showSearch && (
@@ -130,7 +131,6 @@ const ModernNavigation = ({ cartItems, onCartClick, onLoginClick }: ModernNaviga
                   {cartItems}
                 </span>
               )}
-              {isExpanded && <span className="ml-2">Cart</span>}
             </Button>
 
             {/* Login */}
@@ -141,7 +141,6 @@ const ModernNavigation = ({ cartItems, onCartClick, onLoginClick }: ModernNaviga
               className="rounded-full transition-all duration-300 hover:scale-110 hover:bg-grocery-yellow/20"
             >
               <User className="h-4 w-4" />
-              {isExpanded && <span className="ml-2">Login</span>}
             </Button>
 
             {/* Theme Toggle */}

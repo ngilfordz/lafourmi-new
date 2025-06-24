@@ -11,7 +11,7 @@ const AboutGallery = () => {
     '/lovable-uploads/10e20110-a90c-4967-bdcd-dea32dc9f049.png',
     '/lovable-uploads/1b8cb00f-900c-4288-9df1-23aefac9c9ff.png',
     '/lovable-uploads/4e11b3e7-44e1-45c2-8a72-1827bbce2ff8.png',
-    '/lovable-uploads/fda3ef9c-8f24-4f15-8091-84e6f12d64ce.png'
+    '/lovable-uploads/10e20110-a90c-4967-bdcd-dea32dc9f049.png'
   ];
 
   return (
