@@ -50,7 +50,7 @@ const RubiksCubeModel = forwardRef<any, any>((props, ref) => {
       for (let y of positions) {
         for (let z of positions) {
           initial.push({
-            position: new Vector3(x, y, z),
+            position: [x, y, z], // Use array instead of Vector3 for better compatibility
             rotationMatrix: new Matrix4().identity(),
             id: `cube-${x}-${y}-${z}`,
             originalCoords: { x, y, z }
@@ -101,7 +101,7 @@ const RubiksCubeModel = forwardRef<any, any>((props, ref) => {
   });
 
   return (
-    <group ref={mainGroupRef} {...props}>
+    <group ref={mainGroupRef}>
       {cubes.map((cube, index) => (
         <RoundedBox
           key={cube.id}
