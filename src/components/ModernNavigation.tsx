@@ -54,10 +54,10 @@ const ModernNavigation = ({ cartItems, onCartClick, onLoginClick }: ModernNaviga
         isExpanded ? 'px-8 py-4' : 'px-4 py-3'
       }`}>
         <div className="flex items-center space-x-3">
-          {/* Logo - Always visible with proper La Fourmi logo */}
+          {/* Logo - Always visible with correct La Fourmi logo */}
           <div className="flex items-center flex-shrink-0">
             <img 
-              src="/lovable-uploads/eb0a41e8-ad30-4380-86a3-6f415394328a.png" 
+              src="/lafourmi-logo.png" 
               alt="La Fourmi Logo" 
               className={`object-contain transition-all duration-500 ${
                 isExpanded ? 'h-8 w-8' : 'h-6 w-6'
