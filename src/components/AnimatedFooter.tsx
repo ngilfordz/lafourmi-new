@@ -1,7 +1,7 @@
-
 import React from 'react';
-import { Instagram, Facebook, Twitter, Mail, Phone, MapPin, Heart, ExternalLink } from 'lucide-react';
+import { Instagram, Facebook, Twitter, Mail, Phone, MapPin, Heart, ExternalLink, Lock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { GlowingStarsBackgroundCard } from '@/components/ui/glowing-stars';
 
 const AnimatedFooter = () => {
   const socialLinks = [
@@ -52,8 +52,12 @@ const AnimatedFooter = () => {
     }
   };
 
+  const handleAdminClick = () => {
+    window.open("https://github.com/Kiranism/next-shadcn-dashboard-starter", "_blank");
+  };
+
   return (
-    <footer className="bg-gradient-to-br from-grocery-dark via-foreground to-black text-white relative overflow-hidden">
+    <footer className="bg-black/75 backdrop-blur-md text-foreground relative overflow-hidden border-t-2 border-grocery-yellow/30">
       {/* Animated background elements */}
       <div className="absolute inset-0 opacity-10">
         {Array.from({ length: 50 }).map((_, i) => (
@@ -76,9 +80,9 @@ const AnimatedFooter = () => {
           <div className="text-center mb-12">
             <div className="flex items-center justify-center space-x-3 mb-4">
               <img 
-                src="/lovable-uploads/eb0a41e8-ad30-4380-86a3-6f415394328a.png" 
+                src="/lafourmi-logo.png" 
                 alt="La Fourmi Logo" 
-                className="h-16 w-16 object-contain animate-glow"
+                className="h-20 w-auto object-contain"
               />
               <h3 className="text-4xl font-bold text-gradient font-mono">
                 La Fourmi
@@ -93,7 +97,7 @@ const AnimatedFooter = () => {
             {/* Company Info */}
             <div className="space-y-6 animate-fade-in-up">
               <h4 className="text-xl font-bold text-gradient">About La Fourmi</h4>
-              <p className="text-gray-300 leading-relaxed">
+              <p className="text-muted-foreground leading-relaxed">
                 Your neighborhood's premium Lebanese grocery destination. 
                 Quality products, exceptional service, modern convenience - 
                 all curated by Elie's vision for Grocery 2.0.
@@ -105,7 +109,7 @@ const AnimatedFooter = () => {
                     variant="ghost"
                     size="sm"
                     onClick={() => window.open(social.href, '_blank')}
-                    className={`glow-effect rounded-full p-3 hover:bg-white/10 hover:scale-125 transition-all duration-300 ${social.color} group`}
+                    className={`glow-effect rounded-full p-3 hover:bg-background/10 hover:scale-125 transition-all duration-300 ${social.color} group`}
                   >
                     <social.icon className="h-6 w-6 group-hover:animate-bounce" />
                   </Button>
@@ -121,7 +125,7 @@ const AnimatedFooter = () => {
                   <li key={link.name}>
                     <button 
                       onClick={() => smoothScrollTo(link.href)}
-                      className="text-gray-300 hover:text-grocery-yellow transition-all duration-300 hover:translate-x-2 inline-block hover:underline decoration-grocery-yellow"
+                      className="text-muted-foreground hover:text-grocery-yellow transition-all duration-300 hover:translate-x-2 inline-block hover:underline decoration-grocery-yellow"
                     >
                       {link.name}
                     </button>
@@ -136,7 +140,7 @@ const AnimatedFooter = () => {
               <ul className="space-y-3">
                 {productCategories.map((category) => (
                   <li key={category}>
-                    <span className="text-gray-300 hover:text-grocery-yellow transition-colors duration-300 cursor-pointer">
+                    <span className="text-muted-foreground hover:text-grocery-yellow transition-colors duration-300 cursor-pointer">
                       {category}
                     </span>
                   </li>
@@ -150,17 +154,17 @@ const AnimatedFooter = () => {
               <div className="space-y-4">
                 <div className="flex items-center space-x-3 group hover:scale-105 transition-transform duration-300">
                   <MapPin className="h-5 w-5 text-grocery-yellow group-hover:animate-pulse" />
-                  <span className="text-gray-300">Beirut, Lebanon</span>
+                  <span className="text-muted-foreground">Beirut, Lebanon</span>
                 </div>
                 <div className="flex items-center space-x-3 group hover:scale-105 transition-transform duration-300">
                   <Phone className="h-5 w-5 text-grocery-yellow group-hover:animate-pulse" />
-                  <a href="tel:+96181692437" className="text-gray-300 hover:text-grocery-yellow">
+                  <a href="tel:+96181692437" className="text-muted-foreground hover:text-grocery-yellow">
                     +961 81 692 437
                   </a>
                 </div>
                 <div className="flex items-center space-x-3 group hover:scale-105 transition-transform duration-300">
                   <Mail className="h-5 w-5 text-grocery-yellow group-hover:animate-pulse" />
-                  <a href="mailto:lafourmimarket@gmail.com" className="text-gray-300 hover:text-grocery-yellow">
+                  <a href="mailto:lafourmimarket@gmail.com" className="text-muted-foreground hover:text-grocery-yellow">
                     lafourmimarket@gmail.com
                   </a>
                 </div>
@@ -170,57 +174,68 @@ const AnimatedFooter = () => {
                     href="https://nextar.shop/Lafourmi" 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="text-gray-300 hover:text-grocery-yellow"
+                    className="text-muted-foreground hover:text-grocery-yellow"
                   >
                     Product Catalog
                   </a>
                 </div>
               </div>
 
-              {/* Operating Hours */}
-              <div className="mt-6 p-4 bg-grocery-yellow/10 rounded-lg border border-grocery-yellow/20">
-                <h5 className="font-semibold text-grocery-yellow mb-2">Operating Hours</h5>
-                <div className="text-sm text-gray-300 space-y-1">
-                  <div className="flex justify-between">
-                    <span>Mon - Fri</span>
-                    <span>9:00 AM - 8:00 PM</span>
+              {/* Operating Hours with Glowing Stars */}
+              <div className="mt-6 h-48">
+                <GlowingStarsBackgroundCard className="h-full">
+                  <div className="h-full flex flex-col justify-center p-4">
+                    <h5 className="font-semibold text-grocery-yellow mb-2">Operating Hours</h5>
+                    <div className="text-sm text-muted-foreground space-y-1">
+                      <div className="flex justify-between">
+                        <span>Mon - Fri</span>
+                        <span>9:00 AM - 8:00 PM</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Saturday</span>
+                        <span>10:00 AM - 6:00 PM</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Sunday</span>
+                        <span>12:00 PM - 6:00 PM</span>
+                      </div>
+                    </div>
+                    <div className="mt-3 text-center">
+                      <span className="text-grocery-yellow font-semibold text-sm animate-pulse">
+                        🚚 24/7 Delivery Available
+                      </span>
+                    </div>
                   </div>
-                  <div className="flex justify-between">
-                    <span>Saturday</span>
-                    <span>10:00 AM - 6:00 PM</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Sunday</span>
-                    <span>12:00 PM - 6:00 PM</span>
-                  </div>
-                </div>
-                <div className="mt-3 text-center">
-                  <span className="text-grocery-yellow font-semibold text-sm animate-pulse">
-                    🚚 24/7 Delivery Available
-                  </span>
-                </div>
+                </GlowingStarsBackgroundCard>
               </div>
             </div>
           </div>
 
           {/* Bottom bar */}
-          <div className="border-t border-gray-700 mt-16 pt-8">
+          <div className="border-t border-border mt-16 pt-8">
             <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-              <p className="text-gray-400 text-sm flex items-center">
+              <p className="text-muted-foreground text-sm flex items-center">
                 © 2024 La Fourmi Market. Made with 
                 <Heart className="h-4 w-4 mx-1 text-red-500 animate-pulse" /> 
                 in Lebanon
               </p>
-              <div className="flex space-x-6">
-                <a href="#" className="text-gray-400 hover:text-grocery-yellow text-sm transition-colors duration-300 hover:underline">
+              <div className="flex space-x-6 items-center">
+                <a href="#" className="text-muted-foreground hover:text-grocery-yellow text-sm transition-colors duration-300 hover:underline">
                   Privacy Policy
                 </a>
-                <a href="#" className="text-gray-400 hover:text-grocery-yellow text-sm transition-colors duration-300 hover:underline">
+                <a href="#" className="text-muted-foreground hover:text-grocery-yellow text-sm transition-colors duration-300 hover:underline">
                   Terms of Service
                 </a>
-                <a href="#" className="text-gray-400 hover:text-grocery-yellow text-sm transition-colors duration-300 hover:underline">
+                <a href="#" className="text-muted-foreground hover:text-grocery-yellow text-sm transition-colors duration-300 hover:underline">
                   Delivery Policy
                 </a>
+                <button
+                  onClick={handleAdminClick}
+                  className="text-grocery-yellow hover:text-grocery-yellow-light text-sm transition-colors duration-300 hover:underline flex items-center gap-1"
+                >
+                  <Lock className="h-3 w-3" />
+                  Admin
+                </button>
               </div>
             </div>
           </div>

@@ -1,10 +1,18 @@
 
 import React, { useState } from 'react';
-import { ShoppingCart, User, Home, Package, Info, MapPin, Search } from 'lucide-react';
+import { ShoppingCart, User, Home, Package, Info, MapPin, Search, Sun, Moon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useTheme } from 'next-themes';
+import { useCart } from '@/App';
 
 const Navigation = () => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const { theme, setTheme } = useTheme();
+  const { getTotalItems } = useCart();
+  
+  const toggleTheme = () => {
+    setTheme(theme === 'dark' ? 'light' : 'dark');
+  };
 
   const navItems = [
     { icon: Home, label: 'Home', href: '#home' },
@@ -74,13 +82,29 @@ const Navigation = () => {
               className="glow-effect rounded-full transition-all duration-500 hover:scale-110 hover:bg-primary/10 relative"
             >
               <ShoppingCart className="h-4 w-4" />
-              <span className="absolute -top-2 -right-2 bg-primary text-primary-foreground text-xs rounded-full h-6 w-6 flex items-center justify-center font-bold shadow-lg">
-                3
-              </span>
+              {getTotalItems() > 0 && (
+                <span className="absolute -top-2 -right-2 bg-primary text-primary-foreground text-xs rounded-full h-6 w-6 flex items-center justify-center font-bold shadow-lg">
+                  {getTotalItems()}
+                </span>
+              )}
               <span className={`ml-2 transition-all duration-500 overflow-hidden whitespace-nowrap ${
                 isExpanded ? 'max-w-20 opacity-100' : 'max-w-0 opacity-0'
               }`}>
                 Cart
+              </span>
+            </Button>
+
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={toggleTheme}
+              className="glow-effect rounded-full transition-all duration-500 hover:scale-110 hover:bg-primary/10"
+            >
+              {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+              <span className={`ml-2 transition-all duration-500 overflow-hidden whitespace-nowrap ${
+                isExpanded ? 'max-w-20 opacity-100' : 'max-w-0 opacity-0'
+              }`}>
+                Theme
               </span>
             </Button>
 

@@ -1,66 +1,83 @@
-
 "use client";
 
 import { motion } from "framer-motion";
 
 function FloatingPaths({ position }: { position: number }) {
-  const paths = Array.from({ length: 36 }, (_, i) => ({
-    id: i,
-    d: `M-${380 - i * 5 * position} -${189 + i * 6}C-${
-      380 - i * 5 * position
-    } -${189 + i * 6} -${312 - i * 5 * position} ${216 - i * 6} ${
-      152 - i * 5 * position
-    } ${343 - i * 6}C${616 - i * 5 * position} ${470 - i * 6} ${
-      684 - i * 5 * position
-    } ${875 - i * 6} ${684 - i * 5 * position} ${875 - i * 6}`,
-    color: `rgba(15,23,42,${0.1 + i * 0.03})`,
-    width: 0.5 + i * 0.03,
-  }));
+    // Create more synchronized, flowing paths
+    const paths = Array.from({ length: 60 }, (_, i) => {
+        const offset = i * 8 * position;
+        const wave = Math.sin(i * 0.1) * 100;
+        const flow = Math.cos(i * 0.15) * 150;
+        
+        return {
+            id: i,
+            d: `M-${400 + offset} ${100 + wave + i * 4}C${200 + offset + flow} ${150 + wave + i * 4} ${400 + offset + flow} ${200 + wave + i * 4} ${800 + offset} ${250 + wave + i * 4}C${1000 + offset - flow} ${300 + wave + i * 4} ${1200 + offset - flow} ${350 + wave + i * 4} ${1400 + offset} ${400 + wave + i * 4}`,
+            delay: (i % 6) * 2, // More synchronized grouping
+            duration: 25 + (i % 3) * 5, // Varied but harmonious durations
+        };
+    });
 
-  return (
-    <div className="absolute inset-0 pointer-events-none">
-      <svg
-        className="w-full h-full text-grocery-yellow dark:text-grocery-yellow"
-        viewBox="0 0 696 316"
-        fill="none"
-      >
-        <title>Background Paths</title>
-        {paths.map((path) => (
-          <motion.path
-            key={path.id}
-            d={path.d}
-            stroke="currentColor"
-            strokeWidth={path.width}
-            strokeOpacity={0.1 + path.id * 0.03}
-            initial={{ pathLength: 0.3, opacity: 0.6 }}
-            animate={{
-              pathLength: 1,
-              opacity: [0.3, 0.6, 0.3],
-              pathOffset: [0, 1, 0],
-            }}
-            transition={{
-              duration: 20 + Math.random() * 10,
-              repeat: Number.POSITIVE_INFINITY,
-              ease: "linear",
-            }}
-          />
-        ))}
-      </svg>
-    </div>
-  );
+    return (
+        <div className="absolute inset-0 w-full h-full overflow-hidden">
+            <svg
+                className="absolute inset-0 w-full h-full"
+                viewBox="0 0 1000 600"
+                fill="none"
+                preserveAspectRatio="xMidYMid slice"
+                style={{ minHeight: '100vh', minWidth: '100vw' }}
+            >
+                <defs>
+                    <linearGradient id="pathGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stopColor="#ffc107" stopOpacity="0" />
+                        <stop offset="20%" stopColor="#ffc107" stopOpacity="0.15" />
+                        <stop offset="50%" stopColor="#ffc107" stopOpacity="0.25" />
+                        <stop offset="80%" stopColor="#ffc107" stopOpacity="0.15" />
+                        <stop offset="100%" stopColor="#ffc107" stopOpacity="0" />
+                    </linearGradient>
+                </defs>
+                {paths.map((path) => (
+                    <motion.path
+                        key={path.id}
+                        d={path.d}
+                        stroke="url(#pathGradient)"
+                        strokeWidth={0.8}
+                        fill="none"
+                        initial={{ pathLength: 0, opacity: 0 }}
+                        animate={{
+                            pathLength: [0, 1, 0],
+                            opacity: [0, 0.4, 0],
+                        }}
+                        transition={{
+                            duration: path.duration,
+                            repeat: Infinity,
+                            ease: "easeInOut",
+                            delay: path.delay,
+                        }}
+                    />
+                ))}
+            </svg>
+        </div>
+    );
 }
 
-export function BackgroundPaths({
-  title = "Background Paths",
-}: {
-  title?: string;
-}) {
-  return (
-    <div className="relative min-h-screen w-full flex items-center justify-center overflow-hidden">
-      <div className="absolute inset-0">
-        <FloatingPaths position={1} />
-        <FloatingPaths position={-1} />
-      </div>
-    </div>
-  );
+export function BackgroundPaths() {
+    return (
+        <div className="fixed inset-0 w-screen h-screen pointer-events-none z-[1] overflow-hidden">
+            <div className="absolute inset-0 w-full h-full opacity-60">
+                {/* Primary flowing layer */}
+                <FloatingPaths position={1} />
+                <FloatingPaths position={-0.8} />
+                <FloatingPaths position={0.6} />
+                
+                {/* Secondary synchronized layer */}
+                <FloatingPaths position={-1.2} />
+                <FloatingPaths position={1.4} />
+                <FloatingPaths position={-0.4} />
+                
+                {/* Tertiary harmony layer */}
+                <FloatingPaths position={0.2} />
+                <FloatingPaths position={-1.6} />
+            </div>
+        </div>
+    );
 }

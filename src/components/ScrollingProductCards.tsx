@@ -1,10 +1,15 @@
-
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
+import { HyperText } from '@/components/ui/hyper-text';
 
 const ScrollingProductCards = () => {
-  const { scrollYProgress } = useScroll();
   const [activeCard, setActiveCard] = useState(0);
+  const [isSticky, setIsSticky] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end start"]
+  });
 
   const cards = [
     {
@@ -30,82 +35,134 @@ const ScrollingProductCards = () => {
   ];
 
   useEffect(() => {
-    const unsubscribe = scrollYProgress.on('change', (latest) => {
-      // More sensitive scroll detection for proper card transitions
-      const progress = latest * 12; // Increased multiplier for better control
-      const newActiveCard = Math.min(Math.floor(progress), cards.length - 1);
-      setActiveCard(Math.max(0, newActiveCard));
-    });
+    const handleScroll = () => {
+      if (!containerRef.current) return;
+      
+      const rect = containerRef.current.getBoundingClientRect();
+      const viewportHeight = window.innerHeight;
+      
+      // Check if section is in view
+      if (rect.top <= 0 && rect.bottom > viewportHeight) {
+        setIsSticky(true);
+        
+        // Calculate which card should be active based on scroll position
+        const scrolledAmount = Math.abs(rect.top);
+        const scrollPerCard = viewportHeight * 0.5; // Half page scroll per card
+        const newActiveCard = Math.min(
+          Math.floor(scrolledAmount / scrollPerCard),
+          cards.length - 1
+        );
+        setActiveCard(newActiveCard);
+      } else if (rect.top > 0) {
+        setIsSticky(false);
+        setActiveCard(0);
+      } else if (rect.bottom <= viewportHeight) {
+        setIsSticky(false);
+      }
+    };
 
-    return () => unsubscribe();
-  }, [scrollYProgress]);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [cards.length]);
 
   return (
-    <section className="py-32 px-8 bg-background min-h-screen flex items-center">
-      <div className="container mx-auto max-w-4xl">
-        <div className="text-center mb-20">
-          <h2 className="text-6xl font-bold mb-8 font-mono">
-            Why Choose{' '}
-            <span className="text-gradient animate-glow">La Fourmi</span>
-          </h2>
-        </div>
+    <section 
+      ref={containerRef}
+      className="relative bg-black/75 backdrop-blur-md"
+      style={{ height: `${100 + (cards.length - 1) * 50}vh` }} // Dynamic height based on number of cards
+    >
+      <div className={`${isSticky ? 'fixed top-0 left-0 right-0' : 'relative'} h-screen flex items-center justify-center transition-all duration-300`}>
+        <div className="container mx-auto max-w-4xl px-8">
+          <div className="text-center mb-20">
+            <h2 className="text-6xl font-bold mb-8 font-mono">
+              <HyperText 
+                text="Why Choose" 
+                className="text-6xl font-bold font-mono mr-4"
+                animateOnLoad={false}
+              />
+              <span className="text-gradient animate-glow">
+                <HyperText 
+                  text="La Fourmi" 
+                  className="text-6xl font-bold font-mono text-gradient animate-glow"
+                  animateOnLoad={false}
+                />
+              </span>
+            </h2>
+          </div>
 
-        <div className="relative h-96 flex items-center justify-center">
-          {cards.map((card, index) => {
-            const isActive = index === activeCard;
-            const isPrevious = index < activeCard;
-            
-            return (
-              <motion.div
-                key={card.id}
-                className={`absolute inset-0 rounded-2xl border border-grocery-yellow/30 shadow-2xl backdrop-blur-sm ${
-                  isActive ? 'z-30' : isPrevious ? 'z-10' : 'z-20'
+          <div className="relative h-96 flex items-center justify-center perspective-1000">
+            {cards.map((card, index) => {
+              const isActive = index === activeCard;
+              const isPrevious = index < activeCard;
+              const isFuture = index > activeCard;
+              
+              return (
+                <motion.div
+                  key={card.id}
+                  className={`absolute inset-0 rounded-2xl shadow-2xl backdrop-blur-sm overflow-hidden ${
+                    isActive ? 'z-30' : isPrevious ? 'z-10' : 'z-20'
+                  }`}
+                  initial={{ 
+                    rotateX: 0,
+                    opacity: 0,
+                    scale: 0.8,
+                    y: 100
+                  }}
+                  animate={{ 
+                    rotateX: isActive ? 0 : isPrevious ? -90 : isFuture ? 90 : 0,
+                    opacity: isActive ? 1 : 0.3,
+                    scale: isActive ? 1 : 0.85,
+                    y: isActive ? 0 : isPrevious ? -50 : 50,
+                    filter: isActive ? 'blur(0px)' : 'blur(2px)'
+                  }}
+                  transition={{ 
+                    duration: 0.6,
+                    ease: "easeInOut"
+                  }}
+                  style={{ 
+                    transformStyle: "preserve-3d",
+                    perspective: "1000px"
+                  }}
+                >
+                  {/* Glowing border effect */}
+                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-grocery-yellow via-grocery-yellow-light to-grocery-yellow opacity-75 animate-spin-slow" 
+                       style={{ padding: '2px' }}>
+                    <div className={`h-full bg-gradient-to-br ${card.gradient} rounded-2xl`} />
+                  </div>
+                  
+                  <div className={`relative h-full bg-gradient-to-br ${card.gradient} rounded-2xl p-12 flex items-center justify-center border-2 border-transparent`}>
+                    <p className="text-2xl leading-relaxed text-center font-light text-foreground">
+                      {card.text}
+                    </p>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
+
+          {/* Progress indicator */}
+          <div className="flex justify-center mt-16 space-x-4">
+            {cards.map((_, index) => (
+              <div
+                key={index}
+                className={`transition-all duration-500 cursor-pointer ${
+                  index === activeCard 
+                    ? 'w-12 h-3 bg-grocery-yellow shadow-lg rounded-full' 
+                    : index < activeCard
+                    ? 'w-3 h-3 bg-grocery-yellow/50 rounded-full'
+                    : 'w-3 h-3 bg-muted rounded-full'
                 }`}
-                initial={{ 
-                  rotateX: 90, 
-                  opacity: 0,
-                  scale: 0.8,
-                  y: 100
-                }}
-                animate={{ 
-                  rotateX: isActive ? 0 : isPrevious ? -90 : 90,
-                  opacity: isActive ? 1 : isPrevious ? 0 : 0.3,
-                  scale: isActive ? 1 : isPrevious ? 0.9 : 0.8,
-                  y: isActive ? 0 : isPrevious ? -100 : 100
-                }}
-                transition={{ 
-                  duration: 0.8,
-                  ease: "easeInOut"
-                }}
-                style={{ 
-                  transformStyle: "preserve-3d",
-                  perspective: "1000px"
-                }}
-              >
-                <div className={`h-full bg-gradient-to-br ${card.gradient} rounded-2xl p-8 flex items-center justify-center`}>
-                  <p className="text-xl leading-relaxed text-center font-light text-foreground">
-                    {card.text}
-                  </p>
-                </div>
-              </motion.div>
-            );
-          })}
-        </div>
+                onClick={() => setActiveCard(index)}
+              />
+            ))}
+          </div>
 
-        {/* Progress indicator */}
-        <div className="flex justify-center mt-12 space-x-3">
-          {cards.map((_, index) => (
-            <div
-              key={index}
-              className={`w-3 h-3 rounded-full transition-all duration-500 ${
-                index === activeCard 
-                  ? 'bg-grocery-yellow shadow-lg scale-125' 
-                  : index < activeCard
-                  ? 'bg-grocery-yellow/50'
-                  : 'bg-muted'
-              }`}
-            />
-          ))}
+          {/* Scroll hint */}
+          {isSticky && activeCard < cards.length - 1 && (
+            <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+              <p className="text-sm text-muted-foreground">Scroll to continue</p>
+            </div>
+          )}
         </div>
       </div>
     </section>

@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -134,6 +133,10 @@ export default {
 					'0%': { transform: 'translate(0%, 0%)', opacity: '1' },
 					'100%': { transform: 'translate(100%, 0%)', opacity: '0' },
 				},
+				'trail': {
+					"0%": { "--angle": "0deg" },
+					"100%": { "--angle": "360deg" },
+				},
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
@@ -143,6 +146,10 @@ export default {
 				'fade-in-up': 'fade-in-up 0.6s ease-out',
 				'star-movement-bottom': 'star-movement-bottom linear infinite alternate',
 				'star-movement-top': 'star-movement-top linear infinite alternate',
+				'trail': "trail var(--duration) linear infinite",
+			},
+			backgroundImage: {
+				'gradient-conic': 'conic-gradient(var(--tw-gradient-stops))',
 			}
 		}
 	},

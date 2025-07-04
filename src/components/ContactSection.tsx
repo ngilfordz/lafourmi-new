@@ -1,8 +1,8 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Mail, Phone, MapPin, Send, MessageCircle, ExternalLink } from 'lucide-react';
+import { HyperText } from '@/components/ui/hyper-text';
 
 const ContactSection = () => {
   const [formData, setFormData] = useState({
@@ -28,12 +28,22 @@ const ContactSection = () => {
   };
 
   return (
-    <section id="contact" className="py-32 px-8 bg-background">
+    <section id="contact" className="py-32 px-8 bg-black/75 backdrop-blur-md">
       <div className="container mx-auto">
         <div className="text-center mb-20 animate-fade-in-up">
           <h2 className="text-6xl font-bold mb-8 font-mono">
-            Get In{' '}
-            <span className="text-gradient animate-glow">Touch</span>
+            <HyperText 
+              text="Get In" 
+              className="text-6xl font-bold font-mono mr-4"
+              animateOnLoad={false}
+            />
+            <span className="text-gradient animate-glow">
+              <HyperText 
+                text="Touch" 
+                className="text-6xl font-bold font-mono text-gradient animate-glow"
+                animateOnLoad={false}
+              />
+            </span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-4xl mx-auto font-light leading-relaxed">
             Have questions about our products or need assistance? We're here to help! 
@@ -44,13 +54,14 @@ const ContactSection = () => {
         <div className="grid lg:grid-cols-2 gap-12">
           {/* Contact Information */}
           <div className="space-y-8">
-            <Card className="glow-effect border-grocery-yellow/20">
-              <CardHeader>
+            <Card className="glow-effect border-grocery-yellow/20 relative overflow-hidden group">
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-grocery-yellow to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out opacity-20"></div>
+              <CardHeader className="relative z-10">
                 <CardTitle className="text-2xl font-bold text-center">
                   Contact Information
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-6">
+              <CardContent className="space-y-6 relative z-10">
                 <div className="flex items-center space-x-4 p-4 rounded-lg hover:bg-grocery-yellow/10 transition-colors duration-300 group">
                   <div className="w-12 h-12 bg-grocery-yellow/20 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                     <Phone className="h-6 w-6 text-grocery-yellow" />
@@ -111,8 +122,9 @@ const ContactSection = () => {
             </Card>
 
             {/* Social Media Links */}
-            <Card className="glow-effect border-grocery-yellow/20">
-              <CardContent className="p-6">
+            <Card className="glow-effect border-grocery-yellow/20 relative overflow-hidden group">
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-grocery-yellow to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out opacity-20"></div>
+              <CardContent className="p-6 relative z-10">
                 <h3 className="text-xl font-bold mb-4 text-center">Follow Us</h3>
                 <div className="flex justify-center space-x-4">
                   <Button
@@ -139,13 +151,14 @@ const ContactSection = () => {
           </div>
 
           {/* Contact Form */}
-          <Card className="glow-effect border-grocery-yellow/20">
-            <CardHeader>
+          <Card className="glow-effect border-grocery-yellow/20 relative overflow-hidden group">
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-grocery-yellow to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out opacity-20"></div>
+            <CardHeader className="relative z-10">
               <CardTitle className="text-2xl font-bold text-center">
                 Send Us a Message
               </CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="relative z-10">
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid md:grid-cols-2 gap-4">
                   <div>

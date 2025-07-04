@@ -1,63 +1,57 @@
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Search, Package, Wine, Cookie, Cigarette, Plus, Minus, ShoppingCart } from 'lucide-react';
+import { Search, Package, Wine, Cookie, Cigarette, Plus, Minus, ShoppingCart, Coffee, Sparkles, Milk, Snowflake, Filter } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { products, productCategories } from '@/data/products';
+import { useCart } from '@/App';
+import { HyperText } from '@/components/ui/hyper-text';
 
 const EnhancedProductCategories = () => {
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-  const [cart, setCart] = useState<{[key: string]: number}>({});
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
+  const [showFilters, setShowFilters] = useState(false);
   
-  // Sample products based on Lebanese grocery items
-  const products = [
-    // Pantry Essentials
-    { id: '1', name: 'Basmati Rice', category: 'pantry', price: 8.50, priceLBP: 127500, image: 'https://images.unsplash.com/photo-1586201375761-83865001e31c?w=300&h=200&fit=crop' },
-    { id: '2', name: 'Extra Virgin Olive Oil', category: 'pantry', price: 12.00, priceLBP: 180000, image: 'https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=300&h=200&fit=crop' },
-    { id: '3', name: 'Lebanese Spice Mix', category: 'pantry', price: 6.75, priceLBP: 101250, image: 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=300&h=200&fit=crop' },
-    
-    // Snacks & Biscuits
-    { id: '4', name: 'Zaatar Crackers', category: 'snacks', price: 4.25, priceLBP: 63750, image: 'https://images.unsplash.com/photo-1621939514649-280e2ee25f60?w=300&h=200&fit=crop' },
-    { id: '5', name: 'Halawet El Jibn', category: 'snacks', price: 7.50, priceLBP: 112500, image: 'https://images.unsplash.com/photo-1571267188581-bd5b6b08c30d?w=300&h=200&fit=crop' },
-    { id: '6', name: 'Kaak Bread', category: 'snacks', price: 3.00, priceLBP: 45000, image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=300&h=200&fit=crop' },
-    
-    // Beverages
-    { id: '7', name: 'Ayran Yogurt Drink', category: 'beverages', price: 2.50, priceLBP: 37500, image: 'https://images.unsplash.com/photo-1581636625402-29b2a704ef13?w=300&h=200&fit=crop' },
-    { id: '8', name: 'Lebanese Coffee', category: 'beverages', price: 9.00, priceLBP: 135000, image: 'https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=300&h=200&fit=crop' },
-    { id: '9', name: 'Rose Water', category: 'beverages', price: 5.25, priceLBP: 78750, image: 'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=300&h=200&fit=crop' },
-    
-    // Alcohol
-    { id: '10', name: 'Arak Kefraya', category: 'alcohol', price: 35.00, priceLBP: 525000, image: 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=300&h=200&fit=crop' },
-    { id: '11', name: 'Lebanese Red Wine', category: 'alcohol', price: 28.00, priceLBP: 420000, image: 'https://images.unsplash.com/photo-1506377247379-461a39b057e6?w=300&h=200&fit=crop' },
-    { id: '12', name: 'Almaza Beer', category: 'alcohol', price: 3.50, priceLBP: 52500, image: 'https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=300&h=200&fit=crop' },
-    
-    // More products to reach 100...
-    ...Array.from({ length: 88 }, (_, i) => ({
-      id: String(13 + i),
-      name: `Product ${13 + i}`,
-      category: ['pantry', 'snacks', 'beverages', 'alcohol', 'tobacco', 'sweets'][i % 6],
-      price: (Math.random() * 50 + 1),
-      priceLBP: (Math.random() * 50 + 1) * 15000,
-      image: `https://images.unsplash.com/photo-${1586201375761 + i}?w=300&h=200&fit=crop`
-    }))
-  ];
+  const { cart, addToCart, removeFromCart, getTotalItems } = useCart();
+  
+  const categoryIcons: {[key: string]: React.ElementType} = {
+    'soft-drinks': Coffee,
+    'alcohol': Wine,
+    'tobacco': Cigarette,
+    'snacks': Cookie,
+    'pantry': Package,
+    'dairy': Milk,
+    'cleaning': Sparkles,
+    'toiletries': Package,
+    'authentic': Package,
+    'frozen': Snowflake
+  };
 
-  const categories = [
-    { id: 'pantry', name: 'Pantry Essentials', icon: Package, count: products.filter(p => p.category === 'pantry').length },
-    { id: 'snacks', name: 'Snacks & Biscuits', icon: Cookie, count: products.filter(p => p.category === 'snacks').length },
-    { id: 'beverages', name: 'Soft Drinks', icon: Package, count: products.filter(p => p.category === 'beverages').length },
-    { id: 'alcohol', name: 'Alcoholic Beverages', icon: Wine, count: products.filter(p => p.category === 'alcohol').length },
-    { id: 'tobacco', name: 'Tobacco Products', icon: Cigarette, count: products.filter(p => p.category === 'tobacco').length },
-    { id: 'sweets', name: 'Sweets & Candy', icon: Package, count: products.filter(p => p.category === 'sweets').length }
-  ];
-
-  const filteredProducts = products.filter(product =>
-    product.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
-    (selectedCategories.length === 0 || selectedCategories.includes(product.category))
-  );
+  const filteredProducts = products.filter(product => {
+    const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         product.brand?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         product.description.toLowerCase().includes(searchTerm.toLowerCase());
+    
+    const matchesCategory = selectedCategory ? product.category === selectedCategory :
+                           selectedCategories.length === 0 || selectedCategories.includes(product.category);
+    
+    return matchesSearch && matchesCategory;
+  });
 
   const toggleCategory = (categoryId: string) => {
+    if (selectedCategory === categoryId) {
+      setSelectedCategory(null);
+    } else {
+      setSelectedCategory(categoryId);
+      setSelectedCategories([]);
+    }
+  };
+
+  const toggleFilter = (categoryId: string) => {
+    setSelectedCategory(null);
     setSelectedCategories(prev =>
       prev.includes(categoryId)
         ? prev.filter(id => id !== categoryId)
@@ -65,161 +59,289 @@ const EnhancedProductCategories = () => {
     );
   };
 
-  const addToCart = (productId: string) => {
-    setCart(prev => ({ ...prev, [productId]: (prev[productId] || 0) + 1 }));
+  const handleAddToCart = (productId: string) => {
+    const product = products.find(p => p.id === productId);
+    if (product) {
+      addToCart(productId, product);
+    }
   };
-
-  const removeFromCart = (productId: string) => {
-    setCart(prev => {
-      const newCart = { ...prev };
-      if (newCart[productId] > 1) {
-        newCart[productId]--;
-      } else {
-        delete newCart[productId];
-      }
-      return newCart;
-    });
-  };
-
-  const getTotalItems = () => Object.values(cart).reduce((sum, count) => sum + count, 0);
 
   return (
-    <section id="products" className="py-20 px-4">
-      <div className="container mx-auto">
+    <section id="products" className="py-20 px-4 min-h-screen bg-black/75 backdrop-blur-md">
+      <div className="container mx-auto max-w-7xl">
         {/* Header */}
-        <div className="text-center mb-12 animate-fade-in-up">
-          <h2 className="text-4xl font-bold mb-4">
-            Premium{' '}
-            <span className="text-gradient">Products</span>
+        <motion.div 
+          className="text-center mb-12"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <h2 className="text-5xl font-bold mb-4 font-mono">
+            <HyperText 
+              text="Our" 
+              className="text-5xl font-bold font-mono mr-4"
+              animateOnLoad={false}
+            />
+            <span className="text-gradient">
+              <HyperText 
+                text="Premium Collection" 
+                className="text-5xl font-bold font-mono text-gradient"
+                animateOnLoad={false}
+              />
+            </span>
           </h2>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Discover our carefully curated selection of quality products
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+            Over 200 carefully selected products from local Lebanese treasures to international favorites
           </p>
-        </div>
+        </motion.div>
 
-        {/* Search Bar */}
-        <div className="max-w-md mx-auto mb-8">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+        {/* Search Bar with Glowing Border */}
+        <motion.div 
+          className="max-w-2xl mx-auto mb-12"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.4, delay: 0.2 }}
+        >
+          <div className={`relative ${isSearchFocused ? 'glow-border' : ''} rounded-full`}>
+            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-muted-foreground h-5 w-5 z-10" />
             <Input
               type="text"
-              placeholder="Search products..."
+              placeholder="Search for Coca-Cola, Almaza beer, Marlboro..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10 rounded-full glow-effect"
+              onFocus={() => setIsSearchFocused(true)}
+              onBlur={() => setIsSearchFocused(false)}
+              className="pl-12 pr-4 py-6 text-lg rounded-full border-2 border-grocery-yellow/30 focus:border-grocery-yellow transition-all duration-300"
             />
+            {searchTerm && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setSearchTerm('')}
+                className="absolute right-2 top-1/2 transform -translate-y-1/2"
+              >
+                Clear
+              </Button>
+            )}
           </div>
+        </motion.div>
+
+        {/* Category Icons */}
+        <motion.div 
+          className="flex flex-wrap justify-center gap-6 mb-8"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.3 }}
+        >
+          {productCategories.map((category) => {
+            const Icon = categoryIcons[category.id] || Package;
+            const productCount = products.filter(p => p.category === category.id).length;
+            
+            return (
+              <motion.button
+                key={category.id}
+                onClick={() => toggleCategory(category.id)}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+                className={`flex flex-col items-center gap-2 p-4 rounded-2xl transition-all duration-300 ${
+                  selectedCategory === category.id 
+                    ? 'bg-grocery-yellow text-black shadow-lg' 
+                    : 'bg-card hover:bg-muted'
+                }`}
+              >
+                <div className={`p-3 rounded-full ${
+                  selectedCategory === category.id 
+                    ? 'bg-black/10' 
+                    : 'bg-grocery-yellow/10'
+                }`}>
+                  <Icon className="h-8 w-8" />
+                </div>
+                <span className="text-sm font-medium">{category.name}</span>
+                <span className="text-xs opacity-70">{productCount} items</span>
+              </motion.button>
+            );
+          })}
+        </motion.div>
+
+        {/* Filter Toggle */}
+        <div className="flex justify-center mb-8">
+          <Button
+            variant="outline"
+            onClick={() => setShowFilters(!showFilters)}
+            className="rounded-full glow-border"
+          >
+            <Filter className="h-4 w-4 mr-2" />
+            {showFilters ? 'Hide' : 'Show'} Filters
+          </Button>
         </div>
 
-        {/* Category Filters */}
-        <div className="flex flex-wrap justify-center gap-2 mb-8">
-          {categories.map((category) => (
-            <Button
-              key={category.id}
-              variant={selectedCategories.includes(category.id) ? "default" : "outline"}
-              onClick={() => toggleCategory(category.id)}
-              className="rounded-full"
+        {/* Multi-select Filters */}
+        <AnimatePresence>
+          {showFilters && (
+            <motion.div 
+              className="flex flex-wrap justify-center gap-2 mb-8"
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
             >
-              <category.icon className="h-4 w-4 mr-2" />
-              {category.name} ({category.count})
-            </Button>
-          ))}
-          {selectedCategories.length > 0 && (
-            <Button
-              variant="ghost"
-              onClick={() => setSelectedCategories([])}
-              className="rounded-full"
-            >
-              Clear All
-            </Button>
+              {productCategories.map((category) => (
+                <Button
+                  key={category.id}
+                  size="sm"
+                  variant={selectedCategories.includes(category.id) ? "default" : "outline"}
+                  onClick={() => toggleFilter(category.id)}
+                  className="rounded-full"
+                >
+                  {category.name}
+                </Button>
+              ))}
+              {selectedCategories.length > 0 && (
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  onClick={() => {
+                    setSelectedCategories([]);
+                    setSelectedCategory(null);
+                  }}
+                  className="rounded-full text-destructive"
+                >
+                  Clear All
+                </Button>
+              )}
+            </motion.div>
           )}
-        </div>
+        </AnimatePresence>
 
-        {/* Cart Summary */}
-        {getTotalItems() > 0 && (
-          <div className="fixed top-24 right-4 z-40 bg-card border rounded-lg p-4 shadow-lg">
-            <div className="flex items-center gap-2">
-              <ShoppingCart className="h-5 w-5" />
-              <span className="font-semibold">{getTotalItems()} items</span>
-            </div>
-          </div>
+        {/* Results Count */}
+        {(searchTerm || selectedCategory || selectedCategories.length > 0) && (
+          <p className="text-center text-muted-foreground mb-6">
+            Showing {filteredProducts.length} of {products.length} products
+          </p>
         )}
 
-        {/* Products Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {filteredProducts.slice(0, 20).map((product, index) => (
-            <Card 
-              key={product.id} 
-              className="group glow-effect hover:scale-105 transition-all duration-300 animate-fade-in-up"
-              style={{ animationDelay: `${0.1 * index}s` }}
+        {/* Cart Summary */}
+        <AnimatePresence>
+          {getTotalItems() > 0 && (
+            <motion.div 
+              className="fixed bottom-8 right-8 z-40 bg-card border-2 border-grocery-yellow rounded-2xl p-6 shadow-2xl glow-border"
+              initial={{ scale: 0, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0, opacity: 0 }}
             >
-              <CardHeader className="p-0">
-                <div className="relative h-48 overflow-hidden rounded-t-lg">
-                  <img 
-                    src={product.image} 
-                    alt={product.name}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                  />
+              <div className="flex items-center gap-3">
+                <div className="bg-grocery-yellow/10 p-3 rounded-full">
+                  <ShoppingCart className="h-6 w-6 text-grocery-yellow" />
                 </div>
-              </CardHeader>
-              
-              <CardContent className="p-4">
-                <CardTitle className="text-lg mb-2">{product.name}</CardTitle>
-                <div className="space-y-2">
-                  <div className="flex flex-col gap-1">
-                    <span className="text-lg font-bold text-primary">
-                      ${product.price.toFixed(2)}
-                    </span>
-                    <span className="text-sm text-muted-foreground">
-                      {product.priceLBP.toLocaleString()} LBP
-                    </span>
-                  </div>
-                  
-                  <div className="flex items-center justify-between pt-2">
-                    {cart[product.id] ? (
-                      <div className="flex items-center gap-2">
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={() => removeFromCart(product.id)}
-                          className="h-8 w-8 p-0 rounded-full"
-                        >
-                          <Minus className="h-3 w-3" />
-                        </Button>
-                        <span className="font-semibold min-w-[2rem] text-center">
-                          {cart[product.id]}
-                        </span>
-                        <Button
-                          size="sm"
-                          onClick={() => addToCart(product.id)}
-                          className="h-8 w-8 p-0 rounded-full"
-                        >
-                          <Plus className="h-3 w-3" />
-                        </Button>
+                <div>
+                  <p className="font-bold text-lg">{getTotalItems()} items</p>
+                  <p className="text-sm text-muted-foreground">in your cart</p>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Products Grid */}
+        <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+          {filteredProducts.map((product, index) => (
+            <motion.div
+              key={product.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: Math.min(index * 0.05, 0.5) }}
+            >
+              <Card className="group hover:scale-105 transition-all duration-300 h-full flex flex-col overflow-hidden">
+                <CardHeader className="p-0">
+                  <div className="relative h-48 overflow-hidden">
+                    <img 
+                      src={product.image} 
+                      alt={product.name}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                      onError={(e) => {
+                        e.currentTarget.src = 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=300&h=300&fit=crop';
+                      }}
+                    />
+                    {!product.inStock && (
+                      <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
+                        <span className="text-white font-bold">Out of Stock</span>
                       </div>
-                    ) : (
-                      <Button
-                        size="sm"
-                        onClick={() => addToCart(product.id)}
-                        className="w-full rounded-full"
-                      >
-                        <ShoppingCart className="h-4 w-4 mr-2" />
-                        Add to Cart
-                      </Button>
                     )}
                   </div>
-                </div>
-              </CardContent>
-            </Card>
+                </CardHeader>
+                
+                <CardContent className="p-4 flex-1 flex flex-col">
+                  <div className="flex-1">
+                    <CardTitle className="text-lg mb-1 line-clamp-2">{product.name}</CardTitle>
+                    {product.brand && (
+                      <p className="text-sm text-muted-foreground mb-2">{product.brand}</p>
+                    )}
+                  </div>
+                  
+                  <div className="space-y-3 mt-auto">
+                    <div className="flex flex-col gap-1">
+                      <span className="text-xl font-bold text-grocery-yellow">
+                        ${product.price.toFixed(2)}
+                      </span>
+                      <span className="text-sm text-muted-foreground">
+                        {product.priceLBP.toLocaleString()} LBP
+                      </span>
+                    </div>
+                    
+                    <div className="flex items-center justify-between">
+                      {product.inStock ? (
+                        cart[product.id] ? (
+                          <div className="flex items-center gap-2 w-full">
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => removeFromCart(product.id)}
+                              className="h-9 w-9 p-0 rounded-full"
+                            >
+                              <Minus className="h-4 w-4" />
+                            </Button>
+                            <span className="font-bold text-lg flex-1 text-center">
+                              {cart[product.id]}
+                            </span>
+                            <Button
+                              size="sm"
+                              onClick={() => handleAddToCart(product.id)}
+                              className="h-9 w-9 p-0 rounded-full bg-grocery-yellow text-black hover:bg-grocery-yellow-light"
+                            >
+                              <Plus className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        ) : (
+                          <Button
+                            size="sm"
+                            onClick={() => handleAddToCart(product.id)}
+                            className="w-full rounded-full bg-grocery-yellow text-black hover:bg-grocery-yellow-light"
+                          >
+                            <ShoppingCart className="h-4 w-4 mr-2" />
+                            Add to Cart
+                          </Button>
+                        )
+                      ) : (
+                        <Button
+                          size="sm"
+                          disabled
+                          className="w-full rounded-full"
+                        >
+                          Out of Stock
+                        </Button>
+                      )}
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
           ))}
         </div>
 
-        {/* Load More */}
-        {filteredProducts.length > 20 && (
-          <div className="text-center mt-8">
-            <Button variant="outline" className="rounded-full">
-              Load More Products
-            </Button>
+        {/* No Results */}
+        {filteredProducts.length === 0 && (
+          <div className="text-center py-20">
+            <p className="text-2xl text-muted-foreground">No products found</p>
+            <p className="text-muted-foreground mt-2">Try adjusting your search or filters</p>
           </div>
         )}
       </div>

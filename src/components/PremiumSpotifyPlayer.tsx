@@ -50,11 +50,11 @@ const PremiumSpotifyPlayer = () => {
               </div>
             </div>
             
-            <div className="w-full h-80">
+            <div className="w-full h-[152px]">
               <iframe
                 src={`https://open.spotify.com/embed/playlist/${currentMood === 'energetic' ? energeticPlaylistId : chillPlaylistId}?utm_source=generator&theme=0`}
                 width="100%"
-                height="100%"
+                height="152"
                 frameBorder="0"
                 allowFullScreen
                 allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
@@ -85,7 +85,7 @@ const PremiumSpotifyPlayer = () => {
 
       {/* Music Player Card */}
       {isOpen && (
-        <Card className="absolute bottom-20 right-0 w-96 bg-gradient-to-br from-card/95 to-card/90 backdrop-blur-xl border shadow-2xl animate-fade-in-up glow-effect border-grocery-yellow/20 max-h-[80vh] overflow-hidden">
+        <Card className="absolute bottom-20 right-0 w-96 bg-gradient-to-br from-card/95 to-card/90 backdrop-blur-xl border shadow-2xl animate-fade-in-up glow-effect border-grocery-yellow/20 overflow-hidden">
           <CardHeader className="pb-4 bg-gradient-to-r from-green-500/10 to-green-600/10 rounded-t-lg">
             <CardTitle className="flex items-center justify-between">
               <div className="flex items-center gap-3 text-green-500">
@@ -134,11 +134,11 @@ const PremiumSpotifyPlayer = () => {
             </div>
 
             {/* Spotify Embed */}
-            <div className="w-full h-80">
+            <div className="w-full h-[152px]">
               <iframe
                 src={`https://open.spotify.com/embed/playlist/${currentMood === 'energetic' ? energeticPlaylistId : chillPlaylistId}?utm_source=generator&theme=0`}
                 width="100%"
-                height="100%"
+                height="152"
                 frameBorder="0"
                 allowFullScreen
                 allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"

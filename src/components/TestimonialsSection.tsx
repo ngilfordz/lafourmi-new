@@ -1,11 +1,13 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Star, ChevronLeft, ChevronRight, Quote } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { HyperText } from '@/components/ui/hyper-text';
 
 const TestimonialsSection = () => {
   const [activeTestimonial, setActiveTestimonial] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
 
   const testimonials = [
     {
@@ -13,7 +15,7 @@ const TestimonialsSection = () => {
       name: "Fatima Al-Zahra",
       location: "Beirut, Lebanon",
       rating: 5,
-      text: "Elie has created something truly special with La Fourmi. The quality of products and the authentic Lebanese experience is unmatched. Every purchase feels like a journey back home.",
+      text: "Elie has created something truly special with La Fourmi. The quality of products and the authentic Lebanese experience is unmatched.",
       avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b4c1?w=80&h=80&fit=crop&crop=face"
     },
     {
@@ -21,7 +23,7 @@ const TestimonialsSection = () => {
       name: "Ahmad Khalil",
       location: "Dubai, UAE",
       rating: 5,
-      text: "As someone who moved away from Lebanon, La Fourmi brings the taste of home right to my doorstep. Elie's vision for premium Lebanese products is exactly what we needed.",
+      text: "As someone who moved away from Lebanon, La Fourmi brings the taste of home right to my doorstep. Premium quality every time!",
       avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&crop=face"
     },
     {
@@ -29,7 +31,7 @@ const TestimonialsSection = () => {
       name: "Lara Boutros",
       location: "Montreal, Canada",
       rating: 5,
-      text: "The attention to detail and authenticity is incredible. Every product tells a story, and you can feel the passion Elie puts into curating this collection. Grocery 2.0 indeed!",
+      text: "The attention to detail is incredible. Every product tells a story, and you can feel the passion Elie puts into curating this collection.",
       avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop&crop=face"
     },
     {
@@ -37,7 +39,7 @@ const TestimonialsSection = () => {
       name: "Khalil Nasrallah",
       location: "Paris, France",
       rating: 5,
-      text: "Finally, a place that understands what real Lebanese quality means. Elie's hippie soul meets business excellence - it's a perfect combination for authentic products.",
+      text: "Finally, a place that understands what real Lebanese quality means. It's a perfect combination for authentic products.",
       avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&h=80&fit=crop&crop=face"
     },
     {
@@ -45,7 +47,7 @@ const TestimonialsSection = () => {
       name: "Nour Sabbagh",
       location: "London, UK",
       rating: 5,
-      text: "La Fourmi isn't just a grocery store, it's a cultural bridge. Elie has managed to capture the essence of Lebanese hospitality and premium quality in every product.",
+      text: "La Fourmi isn't just a grocery store, it's a cultural bridge. Premium quality in every product they offer.",
       avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=80&h=80&fit=crop&crop=face"
     },
     {
@@ -53,7 +55,7 @@ const TestimonialsSection = () => {
       name: "Michel Hayek",
       location: "Sydney, Australia",
       rating: 5,
-      text: "From traditional arak to premium Lebanese olive oil, every product exceeds expectations. La Fourmi has become my connection to Lebanese authenticity.",
+      text: "From traditional arak to premium Lebanese olive oil, every product exceeds expectations. My connection to home.",
       avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&h=80&fit=crop&crop=face"
     },
     {
@@ -61,7 +63,7 @@ const TestimonialsSection = () => {
       name: "Rania Kassem",
       location: "New York, USA",
       rating: 5,
-      text: "The quality and care that goes into each product selection is extraordinary. Elie has created a premium experience that honors Lebanese heritage.",
+      text: "The quality and care that goes into each product selection is extraordinary. A premium experience that honors Lebanese heritage.",
       avatar: "https://images.unsplash.com/photo-1551836022-deb4988cc6c0?w=80&h=80&fit=crop&crop=face"
     },
     {
@@ -69,18 +71,20 @@ const TestimonialsSection = () => {
       name: "Omar Tabbara",
       location: "São Paulo, Brazil",
       rating: 5,
-      text: "La Fourmi delivers authentic Lebanese products with the convenience of modern e-commerce. It's exactly what the Lebanese diaspora needed.",
+      text: "La Fourmi delivers authentic Lebanese products with modern convenience. Exactly what the Lebanese diaspora needed.",
       avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=80&h=80&fit=crop&crop=face"
     }
   ];
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveTestimonial((prev) => (prev + 1) % testimonials.length);
-    }, 5000);
+    if (!isPaused) {
+      const interval = setInterval(() => {
+        setActiveTestimonial((prev) => (prev + 1) % testimonials.length);
+      }, 6000);
 
-    return () => clearInterval(interval);
-  }, [testimonials.length]);
+      return () => clearInterval(interval);
+    }
+  }, [testimonials.length, isPaused]);
 
   const nextTestimonial = () => {
     setActiveTestimonial((prev) => (prev + 1) % testimonials.length);
@@ -91,25 +95,45 @@ const TestimonialsSection = () => {
   };
 
   return (
-    <section className="py-32 px-8 bg-background relative">
+    <section className="py-32 px-8 bg-black/75 backdrop-blur-md relative overflow-hidden">
       <div className="container mx-auto relative z-10">
-        <div className="text-center mb-20 animate-fade-in-up">
+        <motion.div 
+          className="text-center mb-20"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
           <h2 className="text-6xl font-bold mb-8 font-mono">
-            What Our{' '}
-            <span className="text-gradient animate-glow">Community Says</span>
+            <HyperText 
+              text="What Our" 
+              className="text-6xl font-bold font-mono mr-4"
+              animateOnLoad={false}
+            />
+            <span className="text-gradient animate-glow">
+              <HyperText 
+                text="Community Says" 
+                className="text-6xl font-bold font-mono text-gradient animate-glow"
+                animateOnLoad={false}
+              />
+            </span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto font-light">
             Hear from customers around the world who have experienced Elie's vision for premium Lebanese products
           </p>
-        </div>
+        </motion.div>
 
-        <div className="relative max-w-4xl mx-auto">
-          {/* Navigation Arrows - Always Visible */}
+        <div 
+          className="relative max-w-6xl mx-auto px-20"
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+        >
+          {/* Navigation Arrows */}
           <Button
             onClick={prevTestimonial}
             variant="outline"
             size="lg"
-            className="absolute left-4 top-1/2 -translate-y-1/2 z-50 rounded-full w-14 h-14 glow-effect hover:scale-110 transition-transform bg-background/80 backdrop-blur-sm"
+            className="absolute -left-6 top-1/2 -translate-y-1/2 z-50 rounded-full w-14 h-14 hover:scale-110 transition-all duration-300 bg-background border-grocery-yellow/30 hover:border-grocery-yellow glow-border"
           >
             <ChevronLeft className="h-6 w-6" />
           </Button>
@@ -118,61 +142,83 @@ const TestimonialsSection = () => {
             onClick={nextTestimonial}
             variant="outline"
             size="lg"
-            className="absolute right-4 top-1/2 -translate-y-1/2 z-50 rounded-full w-14 h-14 glow-effect hover:scale-110 transition-transform bg-background/80 backdrop-blur-sm"
+            className="absolute -right-6 top-1/2 -translate-y-1/2 z-50 rounded-full w-14 h-14 hover:scale-110 transition-all duration-300 bg-background border-grocery-yellow/30 hover:border-grocery-yellow glow-border"
           >
             <ChevronRight className="h-6 w-6" />
           </Button>
 
-          {/* Main testimonial card */}
-          <div className="relative h-96 flex items-center justify-center px-20">
-            {testimonials.map((testimonial, index) => {
-              const isActive = index === activeTestimonial;
-              const offset = index - activeTestimonial;
-              
-              return (
-                <Card
-                  key={testimonial.id}
-                  className={`absolute w-full max-w-2xl transition-all duration-700 ease-in-out glow-effect ${
-                    isActive 
-                      ? 'z-30 scale-100 opacity-100 rotate-0' 
-                      : Math.abs(offset) === 1 
-                      ? 'z-20 scale-95 opacity-40 rotate-1' 
-                      : 'z-10 scale-90 opacity-20 rotate-2'
-                  }`}
-                  style={{
-                    transform: `translateX(${offset * 20}px) translateY(${Math.abs(offset) * 10}px) rotate(${offset * 1}deg) scale(${isActive ? 1 : 0.95 - Math.abs(offset) * 0.05})`
-                  }}
-                >
-                  <CardContent className="p-8 text-center space-y-6 bg-gradient-to-br from-background to-grocery-yellow/5">
-                    <Quote className="h-12 w-12 text-grocery-yellow mx-auto opacity-70" />
+          {/* Testimonial Cards Container */}
+          <div className="relative h-[400px] flex items-center justify-center">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeTestimonial}
+                initial={{ opacity: 0, x: 100 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -100 }}
+                transition={{ duration: 0.5, ease: "easeInOut" }}
+                className="absolute w-full max-w-3xl"
+              >
+                <Card className="border-grocery-yellow/20 shadow-2xl overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-br from-grocery-yellow/5 via-transparent to-grocery-yellow/5 pointer-events-none" />
+                  <CardContent className="p-12 text-center space-y-6 relative">
+                    <Quote className="h-16 w-16 text-grocery-yellow/30 mx-auto" />
                     
-                    <div className="space-y-4">
+                    <div className="space-y-6">
                       <div className="flex justify-center">
-                        {Array.from({ length: testimonial.rating }).map((_, i) => (
-                          <Star key={i} className="h-5 w-5 text-yellow-400 fill-current" />
+                        {Array.from({ length: testimonials[activeTestimonial].rating }).map((_, i) => (
+                          <Star key={i} className="h-6 w-6 text-yellow-400 fill-current" />
                         ))}
                       </div>
                       
-                      <blockquote className="text-lg italic text-muted-foreground leading-relaxed">
-                        "{testimonial.text}"
+                      <blockquote className="text-2xl italic text-foreground/80 leading-relaxed font-light max-w-2xl mx-auto">
+                        "{testimonials[activeTestimonial].text}"
                       </blockquote>
                     </div>
                     
-                    <div className="flex items-center justify-center space-x-4">
+                    <div className="flex items-center justify-center space-x-4 pt-4">
                       <img
-                        src={testimonial.avatar}
-                        alt={testimonial.name}
-                        className="w-16 h-16 rounded-full object-cover border-2 border-grocery-yellow/30"
+                        src={testimonials[activeTestimonial].avatar}
+                        alt={testimonials[activeTestimonial].name}
+                        className="w-20 h-20 rounded-full object-cover border-4 border-grocery-yellow/30 shadow-lg"
                       />
                       <div className="text-left">
-                        <h4 className="font-bold text-lg">{testimonial.name}</h4>
-                        <p className="text-sm text-muted-foreground">{testimonial.location}</p>
+                        <h4 className="font-bold text-xl">{testimonials[activeTestimonial].name}</h4>
+                        <p className="text-muted-foreground">{testimonials[activeTestimonial].location}</p>
                       </div>
                     </div>
                   </CardContent>
                 </Card>
-              );
-            })}
+              </motion.div>
+            </AnimatePresence>
+
+            {/* Side Cards Preview */}
+            <div className="absolute inset-0 flex items-center justify-between pointer-events-none">
+              <div className="w-1/3 opacity-30 scale-90 -translate-x-12">
+                <Card className="border-grocery-yellow/10">
+                  <CardContent className="p-8 blur-[1px]">
+                    <Quote className="h-12 w-12 text-grocery-yellow/20 mx-auto mb-4" />
+                    <div className="space-y-2">
+                      <div className="h-4 bg-muted rounded w-3/4 mx-auto" />
+                      <div className="h-4 bg-muted rounded w-full mx-auto" />
+                      <div className="h-4 bg-muted rounded w-2/3 mx-auto" />
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+              
+              <div className="w-1/3 opacity-30 scale-90 translate-x-12">
+                <Card className="border-grocery-yellow/10">
+                  <CardContent className="p-8 blur-[1px]">
+                    <Quote className="h-12 w-12 text-grocery-yellow/20 mx-auto mb-4" />
+                    <div className="space-y-2">
+                      <div className="h-4 bg-muted rounded w-3/4 mx-auto" />
+                      <div className="h-4 bg-muted rounded w-full mx-auto" />
+                      <div className="h-4 bg-muted rounded w-2/3 mx-auto" />
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
           </div>
 
           {/* Progress indicators */}
@@ -181,11 +227,12 @@ const TestimonialsSection = () => {
               <button
                 key={index}
                 onClick={() => setActiveTestimonial(index)}
-                className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                className={`transition-all duration-300 ${
                   index === activeTestimonial 
-                    ? 'bg-grocery-yellow shadow-lg scale-125' 
-                    : 'bg-muted hover:bg-muted-foreground/50'
+                    ? 'w-12 h-3 bg-grocery-yellow shadow-lg rounded-full' 
+                    : 'w-3 h-3 bg-muted hover:bg-muted-foreground/50 rounded-full'
                 }`}
+                aria-label={`Go to testimonial ${index + 1}`}
               />
             ))}
           </div>
