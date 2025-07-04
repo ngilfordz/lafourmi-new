@@ -103,15 +103,57 @@ const Index = () => {
       <AnimatedHeroSection />
       
       {/* Scrolling Cards Section - About La Fourmi */}
-      <ScrollingProductCards />
+      <section className="relative">
+        <div className="absolute inset-0 bg-black/10"></div>
+        <div className="relative z-[3]">
+          <ScrollingProductCards />
+        </div>
+      </section>
       
-      {/* Main Content - transparent sections to allow background paths visibility */}
-      <EnhancedProductCategories />
-      <AboutGallery />
-      <TestimonialsSection />
-      <DeliveryTracker />
-      <ContactSection />
-      <AnimatedFooter />
+      {/* Main Content - with minimal interference to background paths */}
+      <div className="relative z-[2]">
+        <section id="products" className="relative">
+          <div className="absolute inset-0 bg-black/10"></div>
+          <div className="relative z-[3]">
+            <EnhancedProductCategories />
+          </div>
+        </section>
+        
+        <section className="relative">
+          <div className="absolute inset-0 bg-black/10"></div>
+          <div className="relative z-[3]">
+            <AboutGallery />
+          </div>
+        </section>
+        
+        <section className="relative">
+          <div className="absolute inset-0 bg-black/10"></div>
+          <div className="relative z-[3]">
+            <TestimonialsSection />
+          </div>
+        </section>
+        
+        <section className="relative">
+          <div className="absolute inset-0 bg-black/10"></div>
+          <div className="relative z-[3]">
+            <DeliveryTracker />
+          </div>
+        </section>
+        
+        <section id="contact" className="relative">
+          <div className="absolute inset-0 bg-black/10"></div>
+          <div className="relative z-[3]">
+            <ContactSection />
+          </div>
+        </section>
+        
+        <section className="relative">
+          <div className="absolute inset-0 bg-black/10"></div>
+          <div className="relative z-[3]">
+            <AnimatedFooter />
+          </div>
+        </section>
+      </div>
     </div>
   );
 };

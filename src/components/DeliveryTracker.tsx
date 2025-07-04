@@ -58,7 +58,7 @@ const DeliveryTracker = () => {
   };
 
   return (
-    <section id="delivery" className="py-32 px-8 bg-black/75 backdrop-blur-md">
+    <section id="delivery" className="py-32 px-8 bg-background">
       <div className="container mx-auto">
         <div className="text-center mb-20 animate-fade-in-up">
           <h2 className="text-6xl font-bold mb-8 font-mono">

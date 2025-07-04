@@ -67,7 +67,7 @@ const EnhancedProductCategories = () => {
   };
 
   return (
-    <section id="products" className="py-20 px-4 min-h-screen bg-black/75 backdrop-blur-md">
+    <section id="products" className="py-20 px-4 min-h-screen bg-background">
       <div className="container mx-auto max-w-7xl">
         {/* Header */}
         <motion.div 

@@ -57,7 +57,7 @@ const AnimatedFooter = () => {
   };
 
   return (
-    <footer className="bg-black/75 backdrop-blur-md text-foreground relative overflow-hidden border-t-2 border-grocery-yellow/30">
+    <footer className="bg-background text-foreground relative overflow-hidden border-t-2 border-grocery-yellow/30">
       {/* Animated background elements */}
       <div className="absolute inset-0 opacity-10">
         {Array.from({ length: 50 }).map((_, i) => (

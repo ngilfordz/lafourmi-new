@@ -68,7 +68,7 @@ const ScrollingProductCards = () => {
   return (
     <section 
       ref={containerRef}
-      className="relative bg-black/75 backdrop-blur-md"
+      className="relative bg-background"
       style={{ height: `${100 + (cards.length - 1) * 50}vh` }} // Dynamic height based on number of cards
     >
       <div className={`${isSticky ? 'fixed top-0 left-0 right-0' : 'relative'} h-screen flex items-center justify-center transition-all duration-300`}>
