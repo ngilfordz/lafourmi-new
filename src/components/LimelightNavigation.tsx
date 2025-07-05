@@ -105,7 +105,7 @@ const LimelightNavigation = ({ onCartClick, onLoginClick }: LimelightNavigationP
   ];
 
   return (
-    <nav className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50">
+    <nav className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 w-[90vw] max-w-fit">
       <LimelightNav 
         items={navItems}
         defaultActiveIndex={0}

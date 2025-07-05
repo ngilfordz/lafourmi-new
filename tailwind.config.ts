@@ -1,4 +1,13 @@
 import type { Config } from "tailwindcss";
+import plugin from "tailwindcss/plugin";
+
+const responsiveHeadingPlugin = plugin(function({ addUtilities }) {
+  addUtilities({
+    '.heading': {
+      '@apply text-4xl sm:text-5xl md:text-6xl lg:text-7xl': {},
+    },
+  });
+});
 
 export default {
 	darkMode: ["class"],
@@ -153,5 +162,5 @@ export default {
 			}
 		}
 	},
-	plugins: [require("tailwindcss-animate")],
+	plugins: [require("tailwindcss-animate"), responsiveHeadingPlugin],
 } satisfies Config;

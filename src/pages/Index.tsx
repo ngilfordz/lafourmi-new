@@ -2,18 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { useTheme } from 'next-themes';
 import LoadingSpiral from '@/components/LoadingSpiral';
 import LimelightNavigation from '@/components/LimelightNavigation';
-import AnimatedHeroSection from '@/components/AnimatedHeroSection';
+import HeroWithLamp from '@/components/HeroWithLamp';
 import EnhancedProductCategories from '@/components/EnhancedProductCategories';
 import AboutGallery from '@/components/AboutGallery';
 import TestimonialsSection from '@/components/TestimonialsSection';
 import DeliveryTracker from '@/components/DeliveryTracker';
 import ContactSection from '@/components/ContactSection';
 import AnimatedFooter from '@/components/AnimatedFooter';
-import { BackgroundPaths } from '@/components/ui/background-paths';
 import PremiumSpotifyPlayer from '@/components/PremiumSpotifyPlayer';
 import CartSidebar from '@/components/CartSidebar';
 import LoginModal from '@/components/LoginModal';
-import ScrollingProductCards from '@/components/ScrollingProductCards';
+import WhyChooseLaFourmi from '@/components/WhyChooseLaFourmi';
 import { useCart } from '@/App';
 
 interface CartItem {
@@ -36,7 +35,7 @@ const Index = () => {
   const { cartItems, updateCartQuantity, getTotalItems } = useCart();
 
   useEffect(() => {
-    setTheme('dark');
+    // setTheme('dark'); // Removed to respect user's theme selection
     
     const timer = setTimeout(() => {
       setLoading(false);
@@ -70,10 +69,7 @@ const Index = () => {
   }
 
   return (
-    <div className="min-h-screen bg-black relative">
-      {/* Background Paths - Always visible across entire site */}
-      <BackgroundPaths />
-      
+    <>
       {/* Navigation */}
       <LimelightNavigation 
         onCartClick={() => setIsCartOpen(true)}
@@ -100,61 +96,61 @@ const Index = () => {
       />
       
       {/* Hero Section with Lamp Background */}
-      <AnimatedHeroSection />
+      <HeroWithLamp />
       
-      {/* Scrolling Cards Section - About La Fourmi */}
+      {/* Why Choose La Fourmi Section with Cards Stack */}
       <section className="relative">
-        <div className="absolute inset-0 bg-black/40"></div>
-        <div className="relative z-[3]">
-          <ScrollingProductCards />
+<div className="absolute inset-0 section-backdrop"></div>
+        <div className="relative z-[var(--layer-content)]">
+          <WhyChooseLaFourmi />
         </div>
       </section>
       
       {/* Main Content - with minimal interference to background paths */}
-      <div className="relative z-[2]">
+      <div className="relative z-[var(--layer-content)]">
         <section id="products" className="relative">
-          <div className="absolute inset-0 bg-black/50"></div>
-          <div className="relative z-[3]">
+<div className="absolute inset-0 section-backdrop"></div>
+          <div className="relative z-[var(--layer-content)]">
             <EnhancedProductCategories />
           </div>
         </section>
         
         <section className="relative">
-          <div className="absolute inset-0 bg-black/50"></div>
-          <div className="relative z-[3]">
+          <div className="absolute inset-0 section-backdrop"></div>
+          <div className="relative z-[var(--layer-content)]">
             <AboutGallery />
           </div>
         </section>
         
         <section className="relative">
-          <div className="absolute inset-0 bg-black/50"></div>
-          <div className="relative z-[3]">
+          <div className="absolute inset-0 section-backdrop"></div>
+          <div className="relative z-[var(--layer-content)]">
             <TestimonialsSection />
           </div>
         </section>
         
         <section className="relative">
-          <div className="absolute inset-0 bg-black/50"></div>
-          <div className="relative z-[3]">
+          <div className="absolute inset-0 section-backdrop"></div>
+          <div className="relative z-[var(--layer-content)]">
             <DeliveryTracker />
           </div>
         </section>
         
         <section id="contact" className="relative">
-          <div className="absolute inset-0 bg-black/50"></div>
-          <div className="relative z-[3]">
+          <div className="absolute inset-0 section-backdrop"></div>
+          <div className="relative z-[var(--layer-content)]">
             <ContactSection />
           </div>
         </section>
         
         <section className="relative">
-          <div className="absolute inset-0 bg-black/50"></div>
-          <div className="relative z-[3]">
+          <div className="absolute inset-0 section-backdrop"></div>
+          <div className="relative z-[var(--layer-content)]">
             <AnimatedFooter />
           </div>
         </section>
       </div>
-    </div>
+    </>
   );
 };
 

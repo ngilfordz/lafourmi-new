@@ -93,9 +93,9 @@ const AnimatedFooter = () => {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-4 gap-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
             {/* Company Info */}
-            <div className="space-y-6 animate-fade-in-up">
+            <div className="space-y-6 animate-fade-in-up col-span-1 sm:col-span-2 lg:col-span-1">
               <h4 className="text-xl font-bold text-gradient">About La Fourmi</h4>
               <p className="text-muted-foreground leading-relaxed">
                 Your neighborhood's premium Lebanese grocery destination. 
@@ -120,7 +120,7 @@ const AnimatedFooter = () => {
             {/* Quick Links */}
             <div className="space-y-6 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
               <h4 className="text-xl font-bold text-gradient">Quick Links</h4>
-              <ul className="space-y-3">
+              <ul className="grid grid-cols-2 sm:grid-cols-1 gap-2 sm:gap-3">
                 {quickLinks.map((link) => (
                   <li key={link.name}>
                     <button 
@@ -137,7 +137,7 @@ const AnimatedFooter = () => {
             {/* Product Categories */}
             <div className="space-y-6 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
               <h4 className="text-xl font-bold text-gradient">Our Products</h4>
-              <ul className="space-y-3">
+              <ul className="grid grid-cols-2 sm:grid-cols-1 gap-2 sm:gap-3">
                 {productCategories.map((category) => (
                   <li key={category}>
                     <span className="text-muted-foreground hover:text-grocery-yellow transition-colors duration-300 cursor-pointer">
@@ -149,9 +149,9 @@ const AnimatedFooter = () => {
             </div>
 
             {/* Contact Info */}
-            <div className="space-y-6 animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
+            <div className="space-y-6 animate-fade-in-up text-center sm:text-left" style={{ animationDelay: '0.3s' }}>
               <h4 className="text-xl font-bold text-gradient">Contact Us</h4>
-              <div className="space-y-4">
+              <div className="space-y-4 flex flex-col items-center sm:items-start">
                 <div className="flex items-center space-x-3 group hover:scale-105 transition-transform duration-300">
                   <MapPin className="h-5 w-5 text-grocery-yellow group-hover:animate-pulse" />
                   <span className="text-muted-foreground">Beirut, Lebanon</span>
@@ -182,7 +182,7 @@ const AnimatedFooter = () => {
               </div>
 
               {/* Operating Hours with Glowing Stars */}
-              <div className="mt-6 h-48">
+              <div className="mt-6 h-48 w-full max-w-sm mx-auto sm:mx-0">
                 <GlowingStarsBackgroundCard className="h-full">
                   <div className="h-full flex flex-col justify-center p-4">
                     <h5 className="font-semibold text-grocery-yellow mb-2">Operating Hours</h5>

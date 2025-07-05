@@ -8,6 +8,7 @@ import { ThemeProvider } from "next-themes";
 import './App.css';
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
+import Layout from "./components/Layout";
 
 interface CartItem {
   id: string;
@@ -139,11 +140,13 @@ const App = () => (
           <Toaster />
           <Sonner />
           <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Index />} />
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
+            <Layout>
+              <Routes>
+                <Route path="/" element={<Index />} />
+                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </Layout>
           </BrowserRouter>
         </TooltipProvider>
       </CartProvider>

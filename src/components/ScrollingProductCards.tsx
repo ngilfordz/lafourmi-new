@@ -74,16 +74,16 @@ const ScrollingProductCards = () => {
       <div className={`${isSticky ? 'fixed top-0 left-0 right-0' : 'relative'} h-screen flex items-center justify-center transition-all duration-300`}>
         <div className="container mx-auto max-w-4xl px-8">
           <div className="text-center mb-20">
-            <h2 className="text-6xl font-bold mb-8 font-mono">
+            <h2 className="heading font-bold mb-8 font-mono mx-auto text-center px-4 sm:px-0">
               <HyperText 
                 text="Why Choose" 
-                className="text-6xl font-bold font-mono mr-4"
+                className="heading font-bold font-mono mr-4"
                 animateOnLoad={false}
               />
               <span className="text-gradient animate-glow">
                 <HyperText 
                   text="La Fourmi" 
-                  className="text-6xl font-bold font-mono text-gradient animate-glow"
+                  className="heading font-bold font-mono text-gradient animate-glow"
                   animateOnLoad={false}
                 />
               </span>

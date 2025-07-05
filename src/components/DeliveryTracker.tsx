@@ -58,19 +58,19 @@ const DeliveryTracker = () => {
   };
 
   return (
-    <section id="delivery" className="py-32 px-8 bg-background">
+    <section id="delivery" className="py-20 px-2 sm:px-4 bg-background">
       <div className="container mx-auto">
         <div className="text-center mb-20 animate-fade-in-up">
-          <h2 className="text-6xl font-bold mb-8 font-mono">
+          <h2 className="heading font-bold mb-8 font-mono mx-auto text-center px-4 sm:px-0">
             <HyperText 
               text="Track Your" 
-              className="text-6xl font-bold font-mono mr-4"
+              className="heading font-bold font-mono mr-4"
               animateOnLoad={false}
             />
             <span className="text-gradient animate-glow">
               <HyperText 
                 text="Delivery" 
-                className="text-6xl font-bold font-mono text-gradient animate-glow"
+                className="heading font-bold font-mono text-gradient animate-glow"
                 animateOnLoad={false}
               />
             </span>
@@ -80,7 +80,7 @@ const DeliveryTracker = () => {
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-12 items-start">
+        <div className="grid lg:grid-cols-2 gap-4 sm:gap-6 md:gap-8 items-start">
           {/* Delivery Tracker */}
           <div className="space-y-6">
             {/* Tracking Input */}
@@ -215,15 +215,16 @@ const DeliveryTracker = () => {
           </div>
 
           {/* Embedded Google Map */}
-          <Card className="glow-effect border-grocery-yellow/20 h-fit">
-            <CardHeader>
-              <CardTitle className="text-2xl font-bold text-center flex items-center justify-center gap-2">
-                <MapPin className="h-6 w-6 text-grocery-yellow" />
-                Our Location
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="p-0">
-              <div className="w-full h-96 rounded-b-lg overflow-hidden">
+          <div className="flex flex-col items-center">
+            <Card className="glow-effect border-grocery-yellow/20 h-fit w-full">
+              <CardHeader>
+                <CardTitle className="text-2xl font-bold text-center flex items-center justify-center gap-2">
+                  <MapPin className="h-6 w-6 text-grocery-yellow" />
+                  Our Location
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="p-0">
+                <div className="w-full h-96 rounded-b-lg overflow-hidden">
                 <iframe
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3312.0943!2d35.5018!3d33.8938!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzPCsDUzJzM3LjciTiAzNcKwMzAnMDYuNSJF!5e0!3m2!1sen!2slb!4v1640000000000!5m2!1sen!2slb"
                   width="100%"
@@ -246,6 +247,7 @@ const DeliveryTracker = () => {
               </div>
             </CardContent>
           </Card>
+          </div>
         </div>
       </div>
     </section>

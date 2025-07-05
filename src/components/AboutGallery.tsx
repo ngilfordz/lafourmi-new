@@ -63,16 +63,16 @@ const AboutGallery = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-6xl font-bold mb-8 font-mono">
+          <h2 className="heading font-bold mb-8 font-mono mx-auto text-center px-4 sm:px-0">
             <HyperText 
               text="About" 
-              className="text-6xl font-bold font-mono mr-4"
+              className="heading font-bold font-mono mr-4"
               animateOnLoad={false}
             />
             <span className="text-gradient animate-glow">
               <HyperText 
                 text="La Fourmi" 
-                className="text-6xl font-bold font-mono text-gradient animate-glow"
+                className="heading font-bold font-mono text-gradient animate-glow"
                 animateOnLoad={false}
               />
             </span>

@@ -23,7 +23,7 @@ const Navigation = () => {
 
   return (
     <nav 
-      className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 transition-all duration-700 ease-in-out"
+      className="fixed top-4 left-1/2 transform -translate-x-1/2 z-[var(--layer-ui)] transition-all duration-700 ease-in-out"
       onMouseEnter={() => setIsExpanded(true)}
       onMouseLeave={() => setIsExpanded(false)}
     >

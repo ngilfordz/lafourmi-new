@@ -104,16 +104,16 @@ const TestimonialsSection = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 md:mb-8 font-mono">
+          <h2 className="heading font-bold mb-4 sm:mb-6 md:mb-8 font-mono mx-auto text-center px-4 sm:px-0">
             <HyperText 
               text="What Our" 
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold font-mono mr-2 sm:mr-4"
+              className="heading font-bold font-mono mr-2 sm:mr-4"
               animateOnLoad={false}
             />
             <span className="text-gradient animate-glow block sm:inline">
               <HyperText 
                 text="Community Says" 
-                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold font-mono text-gradient animate-glow"
+                className="heading font-bold font-mono text-gradient animate-glow"
                 animateOnLoad={false}
               />
             </span>

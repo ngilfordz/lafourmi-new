@@ -176,7 +176,7 @@ const PremiumProductGrid = ({ onAddToCart, cart }: PremiumProductGridProps) => {
     <section id="products" className="py-32 px-8 bg-background">
       <div className="container mx-auto">
         <div className="text-center mb-20 animate-fade-in-up">
-          <h2 className="text-6xl font-bold mb-8 font-mono">
+          <h2 className="heading font-bold mb-8 font-mono mx-auto text-center px-4 sm:px-0">
             Premium{' '}
             <span className="text-gradient animate-glow">Products</span>
           </h2>

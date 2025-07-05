@@ -1,3 +1,5 @@
+@import './styles/layers.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -114,6 +116,11 @@
 }
 
 @layer utilities {
+  /* Section backdrop with translucency that allows paths to shine through */
+  .section-backdrop {
+    @apply backdrop-brightness-[.7] bg-black/10 pointer-events-none;
+  }
+
   .glow-effect {
     position: relative;
     overflow: hidden;
@@ -227,6 +234,30 @@
 
   .animate-fade-in-up {
     animation: fade-in-up 0.6s ease-out;
+  }
+
+  /* Dossier card hover light effect */
+  .dossier-card-hover {
+    position: relative;
+    overflow: hidden;
+    --mx: 50%;
+    --my: 50%;
+  }
+  
+  .dossier-card-hover::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(
+      circle at var(--mx) var(--my), 
+      hsla(var(--grocery-yellow) / .45), 
+      transparent 60%
+    );
+    transition: background .15s;
+    pointer-events: none;
   }
 
   /* Volume Slider Styles */

@@ -1,16 +1,32 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { ShoppingBag, Star } from 'lucide-react';
+import { WavyBackground } from '@/components/ui/wavy-background';
 
 const HeroSection = () => {
   return (
-    <section id="home" className="min-h-screen flex items-center justify-center pt-20 px-4">
-      <div className="container mx-auto grid lg:grid-cols-2 gap-12 items-center">
+    <section id="home" className="relative">
+      <WavyBackground 
+        className="min-h-screen" 
+        containerClassName="min-h-screen"
+        colors={[
+          '#FFC107', // Yellow
+          '#FFD54F', // Light yellow
+          '#FFE082', // Pale yellow
+          '#FF9800', // Orange-yellow
+          '#FFEB3B', // Bright yellow
+        ]}
+        waveWidth={50}
+        backgroundFill="hsl(var(--background))"
+        blur={10}
+        speed="slow"
+        waveOpacity={0.3}
+      >
+        <div className="container mx-auto grid lg:grid-cols-2 gap-12 items-center px-4 pt-20">
         {/* Left side - Hero text */}
         <div className="space-y-8 animate-fade-in-up">
           <div className="space-y-4">
-            <h1 className="text-5xl lg:text-6xl font-bold leading-tight">
+            <h1 className="heading font-bold leading-tight mx-auto text-center lg:text-left px-4 sm:px-0">
               Welcome to{' '}
               <span className="text-gradient animate-glow">
                 Grocery 2.0
@@ -81,7 +97,8 @@ const HeroSection = () => {
             </div>
           </div>
         </div>
-      </div>
+        </div>
+      </WavyBackground>
     </section>
   );
 };

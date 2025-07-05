@@ -43,7 +43,7 @@ const LoginModal = ({ isOpen, onClose, onLogin }: LoginModalProps) => {
   return (
     <>
       {/* Backdrop with meteor animation */}
-      <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
+      <div className="fixed inset-0 bg-black/60 z-[var(--layer-overlay)] flex items-center justify-center p-4">
         <div className="absolute inset-0 overflow-hidden">
           {/* Meteor animation elements */}
           {Array.from({ length: 20 }).map((_, i) => (
@@ -61,7 +61,7 @@ const LoginModal = ({ isOpen, onClose, onLogin }: LoginModalProps) => {
         </div>
         
         {/* Login Card */}
-        <Card className="w-full max-w-md bg-card/95 backdrop-blur-xl border shadow-2xl glow-effect relative z-10">
+        <Card className="w-full max-w-md bg-card/95 backdrop-blur-xl border shadow-2xl glow-effect relative z-[var(--layer-content)]">
           <CardHeader className="relative">
             <div className="flex items-center justify-between">
               <CardTitle className="text-2xl font-bold">

@@ -28,7 +28,7 @@ const AboutSection = () => {
   ];
 
   return (
-    <section id="about" className="py-20 px-4 bg-gradient-to-br from-grocery-warm to-background">
+    <section id="about" className="py-20 px-2 sm:px-4 bg-gradient-to-br from-grocery-warm to-background">
       <div className="container mx-auto">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left side - About text */}

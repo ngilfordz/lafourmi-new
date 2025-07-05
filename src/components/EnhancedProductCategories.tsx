@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { products, productCategories } from '@/data/products';
 import { useCart } from '@/App';
 import { HyperText } from '@/components/ui/hyper-text';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const EnhancedProductCategories = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -16,6 +17,7 @@ const EnhancedProductCategories = () => {
   const [showFilters, setShowFilters] = useState(false);
   
   const { cart, addToCart, removeFromCart, getTotalItems } = useCart();
+  const isMobile = useIsMobile();
   
   const categoryIcons: {[key: string]: React.ElementType} = {
     'soft-drinks': Coffee,
@@ -66,8 +68,11 @@ const EnhancedProductCategories = () => {
     }
   };
 
+  // Hide products grid on mobile when no category or search term is selected
+  const shouldHideProducts = isMobile && !selectedCategory && !searchTerm;
+
   return (
-    <section id="products" className="py-20 px-4 min-h-screen bg-background">
+    <section id="products" className={`py-20 px-4 ${shouldHideProducts ? 'min-h-0' : 'min-h-screen'} bg-background`}>
       <div className="container mx-auto max-w-7xl">
         {/* Header */}
         <motion.div 
@@ -76,16 +81,16 @@ const EnhancedProductCategories = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-5xl font-bold mb-4 font-mono">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 font-mono">
             <HyperText 
               text="Our" 
-              className="text-5xl font-bold font-mono mr-4"
+              className="text-3xl sm:text-4xl md:text-5xl font-bold font-mono mr-2 sm:mr-4"
               animateOnLoad={false}
             />
-            <span className="text-gradient">
+            <span className="text-gradient block sm:inline">
               <HyperText 
                 text="Premium Collection" 
-                className="text-5xl font-bold font-mono text-gradient"
+                className="text-3xl sm:text-4xl md:text-5xl font-bold font-mono text-gradient"
                 animateOnLoad={false}
               />
             </span>
@@ -242,8 +247,115 @@ const EnhancedProductCategories = () => {
         </AnimatePresence>
 
         {/* Products Grid */}
-        <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-          {filteredProducts.map((product, index) => (
+        <div className={`${shouldHideProducts ? 'hidden' : ''} ${isMobile ? 'relative' : 'grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6'}`}>
+          {/* Mobile gradient fade masks */}
+          {isMobile && !shouldHideProducts && (
+            <>
+              <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
+              <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
+            </>
+          )}
+          
+          {/* Mobile horizontal scroll container */}
+          {isMobile && !shouldHideProducts ? (
+            <div className="flex overflow-x-auto space-x-4 snap-x snap-mandatory pb-4 -mx-4 px-4">
+              {filteredProducts.map((product, index) => (
+                <motion.div
+                  key={product.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: Math.min(index * 0.05, 0.5) }}
+                  className="min-w-[75%] snap-center"
+                >
+                  <Card className="group hover:scale-105 transition-all duration-300 h-full flex flex-col overflow-hidden">
+                    <CardHeader className="p-0">
+                      <div className="relative h-48 overflow-hidden">
+                        <img 
+                          src={product.image} 
+                          alt={product.name}
+                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                          onError={(e) => {
+                            e.currentTarget.src = 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=300&h=300&fit=crop';
+                          }}
+                        />
+                        {!product.inStock && (
+                          <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
+                            <span className="text-white font-bold">Out of Stock</span>
+                          </div>
+                        )}
+                      </div>
+                    </CardHeader>
+                    
+                    <CardContent className="p-4 flex-1 flex flex-col">
+                      <div className="flex-1">
+                        <CardTitle className="text-lg mb-1 line-clamp-2">{product.name}</CardTitle>
+                        {product.brand && (
+                          <p className="text-sm text-muted-foreground mb-2">{product.brand}</p>
+                        )}
+                      </div>
+                      
+                      <div className="space-y-3 mt-auto">
+                        <div className="flex flex-col gap-1">
+                          <span className="text-xl font-bold text-grocery-yellow">
+                            ${product.price.toFixed(2)}
+                          </span>
+                          <span className="text-sm text-muted-foreground">
+                            {product.priceLBP.toLocaleString()} LBP
+                          </span>
+                        </div>
+                        
+                        <div className="flex items-center justify-between">
+                          {product.inStock ? (
+                            cart[product.id] ? (
+                              <div className="flex items-center gap-2 w-full">
+                                <Button
+                                  size="sm"
+                                  variant="outline"
+                                  onClick={() => removeFromCart(product.id)}
+                                  className="h-9 w-9 p-0 rounded-full"
+                                >
+                                  <Minus className="h-4 w-4" />
+                                </Button>
+                                <span className="font-bold text-lg flex-1 text-center">
+                                  {cart[product.id]}
+                                </span>
+                                <Button
+                                  size="sm"
+                                  onClick={() => handleAddToCart(product.id)}
+                                  className="h-9 w-9 p-0 rounded-full bg-grocery-yellow text-black hover:bg-grocery-yellow-light"
+                                >
+                                  <Plus className="h-4 w-4" />
+                                </Button>
+                              </div>
+                            ) : (
+                              <Button
+                                size="sm"
+                                onClick={() => handleAddToCart(product.id)}
+                                className="w-full rounded-full bg-grocery-yellow text-black hover:bg-grocery-yellow-light"
+                              >
+                                <ShoppingCart className="h-4 w-4 mr-2" />
+                                Add to Cart
+                              </Button>
+                            )
+                          ) : (
+                            <Button
+                              size="sm"
+                              disabled
+                              className="w-full rounded-full"
+                            >
+                              Out of Stock
+                            </Button>
+                          )}
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              ))}
+            </div>
+          ) : (
+            /* Desktop grid layout */
+            filteredProducts.map((product, index) => (
             <motion.div
               key={product.id}
               initial={{ opacity: 0, y: 20 }}
@@ -334,7 +446,8 @@ const EnhancedProductCategories = () => {
                 </CardContent>
               </Card>
             </motion.div>
-          ))}
+            ))
+          )}
         </div>
 
         {/* No Results */}

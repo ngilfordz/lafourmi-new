@@ -1,0 +1,6 @@
+:root {
+  --layer-background: 0;
+  --layer-content: 10;
+  --layer-ui: 20;
+  --layer-overlay: 30;
+}
