@@ -95,36 +95,36 @@ const TestimonialsSection = () => {
   };
 
   return (
-    <section className="py-32 px-8 bg-background relative overflow-hidden">
+    <section className="py-16 sm:py-24 md:py-32 px-4 sm:px-6 md:px-8 bg-background relative overflow-hidden">
       <div className="container mx-auto relative z-10">
         <motion.div 
-          className="text-center mb-20"
+          className="text-center mb-12 sm:mb-16 md:mb-20"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-6xl font-bold mb-8 font-mono">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 md:mb-8 font-mono">
             <HyperText 
               text="What Our" 
-              className="text-6xl font-bold font-mono mr-4"
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold font-mono mr-2 sm:mr-4"
               animateOnLoad={false}
             />
-            <span className="text-gradient animate-glow">
+            <span className="text-gradient animate-glow block sm:inline">
               <HyperText 
                 text="Community Says" 
-                className="text-6xl font-bold font-mono text-gradient animate-glow"
+                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold font-mono text-gradient animate-glow"
                 animateOnLoad={false}
               />
             </span>
           </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto font-light">
+          <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto font-light px-4">
             Hear from customers around the world who have experienced Elie's vision for premium Lebanese products
           </p>
         </motion.div>
 
         <div 
-          className="relative max-w-6xl mx-auto px-20"
+          className="relative max-w-6xl mx-auto px-4 sm:px-12 md:px-20"
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
         >
@@ -133,22 +133,22 @@ const TestimonialsSection = () => {
             onClick={prevTestimonial}
             variant="outline"
             size="lg"
-            className="absolute -left-6 top-1/2 -translate-y-1/2 z-50 rounded-full w-14 h-14 hover:scale-110 transition-all duration-300 bg-background border-grocery-yellow/30 hover:border-grocery-yellow glow-border"
+            className="absolute left-0 sm:-left-6 top-1/2 -translate-y-1/2 z-50 rounded-full w-10 h-10 sm:w-14 sm:h-14 hover:scale-110 transition-all duration-300 bg-background border-grocery-yellow/30 hover:border-grocery-yellow glow-border"
           >
-            <ChevronLeft className="h-6 w-6" />
+            <ChevronLeft className="h-4 w-4 sm:h-6 sm:w-6" />
           </Button>
           
           <Button
             onClick={nextTestimonial}
             variant="outline"
             size="lg"
-            className="absolute -right-6 top-1/2 -translate-y-1/2 z-50 rounded-full w-14 h-14 hover:scale-110 transition-all duration-300 bg-background border-grocery-yellow/30 hover:border-grocery-yellow glow-border"
+            className="absolute right-0 sm:-right-6 top-1/2 -translate-y-1/2 z-50 rounded-full w-10 h-10 sm:w-14 sm:h-14 hover:scale-110 transition-all duration-300 bg-background border-grocery-yellow/30 hover:border-grocery-yellow glow-border"
           >
-            <ChevronRight className="h-6 w-6" />
+            <ChevronRight className="h-4 w-4 sm:h-6 sm:w-6" />
           </Button>
 
           {/* Testimonial Cards Container */}
-          <div className="relative h-[400px] flex items-center justify-center">
+          <div className="relative h-auto sm:h-[400px] flex items-center justify-center">
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeTestimonial}

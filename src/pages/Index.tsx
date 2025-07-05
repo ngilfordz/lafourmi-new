@@ -104,7 +104,7 @@ const Index = () => {
       
       {/* Scrolling Cards Section - About La Fourmi */}
       <section className="relative">
-        <div className="absolute inset-0 bg-black/10"></div>
+        <div className="absolute inset-0 bg-black/40"></div>
         <div className="relative z-[3]">
           <ScrollingProductCards />
         </div>
@@ -113,42 +113,42 @@ const Index = () => {
       {/* Main Content - with minimal interference to background paths */}
       <div className="relative z-[2]">
         <section id="products" className="relative">
-          <div className="absolute inset-0 bg-black/10"></div>
+          <div className="absolute inset-0 bg-black/50"></div>
           <div className="relative z-[3]">
             <EnhancedProductCategories />
           </div>
         </section>
         
         <section className="relative">
-          <div className="absolute inset-0 bg-black/10"></div>
+          <div className="absolute inset-0 bg-black/50"></div>
           <div className="relative z-[3]">
             <AboutGallery />
           </div>
         </section>
         
         <section className="relative">
-          <div className="absolute inset-0 bg-black/10"></div>
+          <div className="absolute inset-0 bg-black/50"></div>
           <div className="relative z-[3]">
             <TestimonialsSection />
           </div>
         </section>
         
         <section className="relative">
-          <div className="absolute inset-0 bg-black/10"></div>
+          <div className="absolute inset-0 bg-black/50"></div>
           <div className="relative z-[3]">
             <DeliveryTracker />
           </div>
         </section>
         
         <section id="contact" className="relative">
-          <div className="absolute inset-0 bg-black/10"></div>
+          <div className="absolute inset-0 bg-black/50"></div>
           <div className="relative z-[3]">
             <ContactSection />
           </div>
         </section>
         
         <section className="relative">
-          <div className="absolute inset-0 bg-black/10"></div>
+          <div className="absolute inset-0 bg-black/50"></div>
           <div className="relative z-[3]">
             <AnimatedFooter />
           </div>
